@@ -1,0 +1,80 @@
+
+--------------------------
+SA-MP Server: 0.3.7-R2
+
+Exception At Address: 0x00401696 Module: (samp-server.exe)
+
+Registers:
+EAX: 0x01BA1320	EBX: 0x01BA1320	ECX: 0x00000000	EDX: 0x773F5DD4
+ESI: 0x01BA1320	EDI: 0x00000000	EBP: 0x76B01C5D	ESP: 0x0012FDC8
+EFLAGS: 0x00010206
+
+Stack:
++0000: 0x00401726   0x01BA1320   0x0012FDE4   0x00000000
++0010: 0x01BA1320   0x76B01C5D   0x01BA1320   0x00000000
++0020: 0x00000000   0x00000000   0x00000000   0x00000000
++0030: 0xFFFF3CB0   0xFFFFFFFF   0x00000000   0x0012FDC4
++0040: 0x0046D7C5   0x01BA1320   0x004B5B78   0x0012FE20
++0050: 0x0028AB80   0x01BA1320   0x01BA1320   0x0048F2D1
++0060: 0x76B49B60   0x0028AB80   0x00000000   0x0048D555
++0070: 0x00000000   0x00001772   0x0012FF88   0x7FFDC000
++0080: 0x0000C000   0x00010101   0x00000032   0x00001E61
++0090: 0x000000AC   0x00000550   0x0028AB80   0x656D6167
++00A0: 0x65646F6D   0x00003531   0x004C4020   0x004C401C
++00B0: 0x7FFDC000   0x004AB4A0   0x0012FE70   0x0012FF78
++00C0: 0x0012FF78   0x0049D208   0x004BA2F8   0xFFFFFFFF
++00D0: 0x0049B4A1   0x0049B4B1   0x004AB4A0   0x0012FF78
++00E0: 0x004AB0E1   0xFFFFFFFF   0x0049CCA6   0x00000001
++00F0: 0x002817C0   0x002817E0   0x00000094   0x00000006
++0100: 0x00000000   0x00001772   0x00000002   0x76726553
++0110: 0x20656369   0x6B636150   0x00003220   0x00000000
++0120: 0x00000000   0x00000000   0x00000000   0x00000000
++0130: 0x00000000   0x00000000   0x00000000   0x00000000
+
+--------------------------
+
+Loaded Modules:
+samp-server.exe	A: 0x00400000 - 0x00519000	(D:\Program Files\Rockstar Games\Everlast Roleplay\samp-server.exe)
+ntdll.dll	A: 0x77390000 - 0x774B9000	(C:\Windows\system32\ntdll.dll)
+kernel32.dll	A: 0x76B00000 - 0x76BDD000	(C:\Windows\system32\kernel32.dll)
+SHELL32.dll	A: 0x75CC0000 - 0x767D1000	(C:\Windows\system32\SHELL32.dll)
+msvcrt.dll	A: 0x76A50000 - 0x76AFA000	(C:\Windows\system32\msvcrt.dll)
+GDI32.dll	A: 0x77170000 - 0x771BC000	(C:\Windows\system32\GDI32.dll)
+USER32.dll	A: 0x771E0000 - 0x7727D000	(C:\Windows\system32\USER32.dll)
+ADVAPI32.dll	A: 0x76860000 - 0x76927000	(C:\Windows\system32\ADVAPI32.dll)
+RPCRT4.dll	A: 0x75BC0000 - 0x75C82000	(C:\Windows\system32\RPCRT4.dll)
+SHLWAPI.dll	A: 0x774C0000 - 0x77519000	(C:\Windows\system32\SHLWAPI.dll)
+WSOCK32.dll	A: 0x6C3B0000 - 0x6C3B7000	(C:\Windows\system32\WSOCK32.dll)
+WS2_32.dll	A: 0x75C90000 - 0x75CBD000	(C:\Windows\system32\WS2_32.dll)
+NSI.dll	A: 0x76FC0000 - 0x76FC6000	(C:\Windows\system32\NSI.dll)
+WINMM.dll	A: 0x744F0000 - 0x74522000	(C:\Windows\system32\WINMM.dll)
+OLEAUT32.dll	A: 0x76DA0000 - 0x76E30000	(C:\Windows\system32\OLEAUT32.dll)
+OLEACC.dll	A: 0x744B0000 - 0x744EE000	(C:\Windows\system32\OLEACC.dll)
+IMM32.DLL	A: 0x771C0000 - 0x771DE000	(C:\Windows\system32\IMM32.DLL)
+MSCTF.dll	A: 0x77520000 - 0x775E8000	(C:\Windows\system32\MSCTF.dll)
+LPK.DLL	A: 0x77120000 - 0x77129000	(C:\Windows\system32\LPK.DLL)
+USP10.dll	A: 0x77280000 - 0x772FE000	(C:\Windows\system32\USP10.dll)
+comctl32.dll	A: 0x749B0000 - 0x74B4E000	(C:\Windows\WinSxS\x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.6002.19373_none_5cbe60a608848a19\comctl32.dll)
+streamer.dll	A: 0x71B50000 - 0x71B8E000	(D:\Program Files\Rockstar Games\Everlast Roleplay\plugins\streamer.dll)
+MSVCP100.dll	A: 0x662C0000 - 0x66329000	(C:\Windows\system32\MSVCP100.dll)
+MSVCR100.dll	A: 0x66330000 - 0x663EF000	(C:\Windows\system32\MSVCR100.dll)
+mysql.dll	A: 0x64220000 - 0x642F4000	(D:\Program Files\Rockstar Games\Everlast Roleplay\plugins\mysql.dll)
+LIBMYSQL.dll	A: 0x62600000 - 0x62B0C000	(D:\Program Files\Rockstar Games\Everlast Roleplay\LIBMYSQL.dll)
+Secur32.dll	A: 0x758E0000 - 0x758F4000	(C:\Windows\system32\Secur32.dll)
+MSVCP110.dll	A: 0x64920000 - 0x649A5000	(C:\Windows\system32\MSVCP110.dll)
+MSVCR110.dll	A: 0x718A0000 - 0x71976000	(C:\Windows\system32\MSVCR110.dll)
+NLAapi.dll	A: 0x74010000 - 0x7401F000	(C:\Windows\system32\NLAapi.dll)
+IPHLPAPI.DLL	A: 0x75670000 - 0x75689000	(C:\Windows\system32\IPHLPAPI.DLL)
+dhcpcsvc.DLL	A: 0x75630000 - 0x75665000	(C:\Windows\system32\dhcpcsvc.DLL)
+DNSAPI.dll	A: 0x75200000 - 0x7522C000	(C:\Windows\system32\DNSAPI.dll)
+WINNSI.DLL	A: 0x75620000 - 0x75627000	(C:\Windows\system32\WINNSI.DLL)
+dhcpcsvc6.DLL	A: 0x754C0000 - 0x754E2000	(C:\Windows\system32\dhcpcsvc6.DLL)
+napinsp.dll	A: 0x6D810000 - 0x6D81F000	(C:\Windows\system32\napinsp.dll)
+mswsock.dll	A: 0x75070000 - 0x750AB000	(C:\Windows\System32\mswsock.dll)
+mdnsNSP.dll	A: 0x6D7B0000 - 0x6D7D1000	(C:\Program Files\Bonjour\mdnsNSP.dll)
+wshbth.dll	A: 0x6D800000 - 0x6D80C000	(C:\Windows\system32\wshbth.dll)
+SETUPAPI.dll	A: 0x76E30000 - 0x76FBA000	(C:\Windows\system32\SETUPAPI.dll)
+rasadhlp.dll	A: 0x6E920000 - 0x6E926000	(C:\Windows\system32\rasadhlp.dll)
+dns.dll	A: 0x71CE0000 - 0x71CF2000	(D:\Program Files\Rockstar Games\Everlast Roleplay\plugins\dns.dll)
+sscanf.dll	A: 0x10000000 - 0x1000C000	(D:\Program Files\Rockstar Games\Everlast Roleplay\plugins\sscanf.dll)
+wshtcpip.dll	A: 0x74C70000 - 0x74C75000	(C:\Windows\System32\wshtcpip.dll)
