@@ -5875,7 +5875,7 @@ public TimerDeMedioSegundo()
         }
         else{ChalecoAC[playerid] = 0;}
 
-        if(GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_USEJETPACK && PlayerInfo[playerid][pAdmin] <5) //Jetpack
+        if(GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_USEJETPACK && PlayerInfo[playerid][pAdmin] <2) //Jetpack
 		{
 			new string[90];
 			format(string, sizeof(string), "Anticheat: '%s' fue baneado. Razón: Spawnear un jetpack.", GetPlayerNameRP(playerid));
@@ -11311,10 +11311,10 @@ if(strcmp(cmd, "/getnegoid", true) == 0) /* Comando paraconseguir la id de un ne
 
 if(strcmp(cmd, "/onDuty", true) == 0) /* Comando para entrar o salir del servicio de admin */
 {
-    if(PlayerInfo[playerid][pAdmin] < 3){SendClientMessage(playerid, Rojo, "* Nivel de admin insuficiente."); return 1;}
+    if(PlayerInfo[playerid][pAdmin] < 2){SendClientMessage(playerid, Rojo, "* Nivel de admin insuficiente."); return 1;}
 	if(PlayerInfo[playerid][pOnDuty]==0){
 		PlayerInfo[playerid][pOnDuty]=1;
-		SetPlayerColor(playerid,0x00FF00FF);
+		SetPlayerColor(playerid,0x00FF0000);
  		format(string, sizeof(string), "Administrador %s de servicio",PlayerInfo[playerid][pNombre]);
 		for(new i = 0; i < MAX_PLAYERS; i++)
 			{
@@ -11325,7 +11325,7 @@ if(strcmp(cmd, "/onDuty", true) == 0) /* Comando para entrar o salir del servici
 			}
 	}else{
 		PlayerInfo[playerid][pOnDuty]=0;
-		SetPlayerColor(playerid,0xFFFFFFFF);
+		SetPlayerColor(playerid,0xFFFFFF00);
  		format(string, sizeof(string), "Administrador %s fuera de servicio",PlayerInfo[playerid][pNombre]);
 		for(new i = 0; i < MAX_PLAYERS; i++)
 			{
