@@ -4615,6 +4615,11 @@ public SaveCar(idx)
 		CarInfo[idx][cInterior],
 		CarInfo[idx][cSQLID]);
 		mysql_query(1, sql);
+	} else if(CarInfo[idx][cComprado]==0){ // El vehículo ha sido vendido
+	      new sql[1024];
+	      format(sql, 1024, "DELETE FROM vehiculos WHERE SQLID=%d",
+	      CarInfo[idx][cSQLID]);
+	      mysql_query(1, sql);
 	}
 	return 1;
 }
@@ -25409,7 +25414,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					if(PlayerInfo[playerid][pFaccion] == 3) //Gobierno
 					{
 						SendClientMessage(playerid, AmarilloClaro, "' Comandos de Gobierno '");
-						SendClientMessage(playerid, AmarilloClaro, "Facción: /Miembros - /(Gob)ierno - /F [Texto] - /(R)adio - /Vestuario - /Armeria - /Bloqueof");
+						SendClientMessage(playerid, AmarilloClaro, "Facción: /Miembros - /(Gob)ierno - /F [Texto] - /(R)adio - /Vestuario - /Bloqueof");
 						return 1;
 					}
 					if(PlayerInfo[playerid][pFaccion] == 4) //LSN
