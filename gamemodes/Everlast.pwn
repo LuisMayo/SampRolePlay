@@ -157,8 +157,7 @@ AntiDeAMX()
 
 #define MAX_LSEDINFORMES 200 /* Máximo informes LSMD */
 #define MAX_DROP_ITEM 1000 /* Máximo objetos caídos en el suelo */
-#define MAX_CAR_DATA 75 /* Máximo de coches concesionarios */
-#define MAX_VEHPUBLICO 153 /* Máximo vehículos públicos/facciones */
+#define MAX_CAR_DATA 81 /* Máximo de coches concesionarios */
 #define MAX_COPOBJS 300 /* Máximo objetos de trafico */
 #define MAX_HOUSES 1000 /* Máximo de casas */
 #define MAX_NEGS 200 /* Máximo de negocios */
@@ -994,7 +993,7 @@ enum datos_del_coche
 	dcNivel,
 }
 new datacar[MAX_CAR_DATA][datos_del_coche] = {
-
+/*Coche/Moto,Nombre,ModelID,Precio,Conce,NivelPlayer*/
 /* TARTANAS GAMA CHUNGA */
 {0, "Glendale", 466, 6500, 1,1},
 {0, "Oceanic", 467, 7500, 1,1},
@@ -1021,6 +1020,7 @@ new datacar[MAX_CAR_DATA][datos_del_coche] = {
 {0, "Phoenix", 603, 125000, 1,4},
 {0, "Hermes", 474, 15000, 1,4},
 {0, "Sabre", 475, 60000, 1,3},
+{0, "Hotknife", 434, 160000, 4,8},
 /* FRAGONETAS Y CURROS */
 {0, "Benson", 499, 25000, 2,1},
 {0, "Moonbeam", 418, 18000, 2,1},
@@ -1073,12 +1073,17 @@ new datacar[MAX_CAR_DATA][datos_del_coche] = {
 /* MOTOS */
 {1, "Freeway", 463, 60000, 5,3},
 {1, "Wayfarer", 586, 40000, 5,3},
-{1, "BF-400", 581, 90000, 5,5},
+{1, "BF-400", 581, 75000, 5,5},
+{1, "Sanchez", 468, 90000, 5,5},
+{1, "NRG-500", 522, 350000, 5,10},
+{1, "FCR-900", 521, 150000, 5,5},
 /* SUPERCARS */
 {0, "Comet", 480, 200000, 5,8},
-{0, "Bullet", 541, 600000, 5,8},
-{0, "Turismo", 451, 800000, 5,10},
-{0, "Infernus", 411, 600000, 5,10}
+{0, "Bullet", 541, 450000, 5,8},
+{0, "Turismo", 451, 550000, 5,10},
+{0, "Infernus", 411, 600000, 5,10},
+{0, "Buffalo", 402, 175000, 5,8},
+{0, "Banshee", 429, 250000, 5,10}
 };
 
 enum TiempoInfo /* Tiempo Aleatorio */
@@ -1154,7 +1159,8 @@ new /* MYSQL */ ConectadoBaseDatos, Conecction,
 	/* Sistema Averiado */ averiado[MAX_VEHICLES], iVehicle[MAX_PLAYERS],// .: Fin Sistema :.
     /* Trabajo Piloto */ cavion[MAX_PLAYERS], AvionID[MAX_PLAYERS], VarAvion[MAX_PLAYERS], TCV[MAX_PLAYERS], TCV2[MAX_PLAYERS], TrabajoAvion[MAX_PLAYERS],// .: Fin Sistema :.
 	/* Textos de Vehículos */ AutosV[27], Text3D: AutosVLabel[MAX_VEHICLES], // .: Fin Sistema :.
-    /* Vehículos de Renta */ RentoVehID[MAX_PLAYERS], VehRentado[MAX_VEHICLES];// .: Fin Sistema :.
+    /* Vehículos de Renta */ RentoVehID[MAX_PLAYERS], VehRentado[MAX_VEHICLES],
+	VehiculoPublico[31],MAX_VEHPUBLICO;// .: Fin Sistema :.
 
 //--------- Foward/Public/Stock ---------//
 
@@ -3194,6 +3200,12 @@ stock LlamarTelefono(playerid, numero)
         EnLlamada[playerid] = 444;
         return 1;
     }
+    if(numero == 666) //Easter egg
+    {
+        SendClientMessage(playerid, RojoIntenso, "Lucifer: En estos momentos la agencia del infierno está saturada.");
+        SendClientMessage(playerid, RojoIntenso, "Lucifer: Trate de vendernos su alma más tarde.");
+		return 1;
+    }
     if(numero == 777) //Taxis
     {
         if(PlayerInfo[playerid][pTrabajo] == 3 && Trabajando[playerid] > 0){SendClientMessage(playerid, Rojo, "* No puedes llamar a un taxi siendo taxista y estando trabajando."); return 1;}
@@ -4626,37 +4638,37 @@ public SaveCar(idx)
 
 stock CocheLSPD(carid) //Comprueba si el coche pertenece a LSPD
 {
-	if(carid >= 1 && carid <= 50) return 1;
+	if(carid >= 1 && carid <= VehiculoPublico[0]) return 1;
 	return 0;
 }
 
 stock CocheGOB(carid) //Comprueba si el coche pertenece al gobierno
 {
-	if(carid >= 51 && carid <= 54) return 1;
+	if(VehiculoPublico[0] > 51 && carid <= VehiculoPublico[1]) return 1;
 	return 0;
 }
 
 stock CocheLSN(carid) //Comprueba si el coche pertenece a LSN
 {
-	if(carid >= 55 && carid <= 57) return 1;
+	if(carid > VehiculoPublico[1] && carid <= VehiculoPublico[2]) return 1;
 	return 0;
 }
 
 stock CocheAutoescuelaCond(carid) //Comprueba si el coche pertenece a la autoescuela de conducción
 {
-	if(carid >= 58 && carid <= 60) return 1;
+	if(carid > VehiculoPublico[2] && carid <= VehiculoPublico[3]) return 1;
 	return 0;
 }
 
 stock CocheAutoescuelaAvion(carid) //Comprueba si el coche pertenece a la autoescuela de aviación
 {
-	if(carid == 61) return 1;
+	if(carid == VehiculoPublico[4]) return 1;
 	return 0;
 }
 
 stock CocheAutoescuelaBarco(carid) //Comprueba si el coche pertenece a la autoescuela de navegación
 {
-	if(carid == 62) return 1;
+	if(carid == VehiculoPublico[5]) return 1;
 	return 0;
 }
 
@@ -4708,54 +4720,51 @@ stock IsATaxi(carid) //Comprueba si es un taxi
 
 stock IsABarcoPesca(carid) //Comprueba si es un barco de pesca
 {
-	if(carid == 74 || carid == 75)
+	if(carid > VehiculoPublico[7] && carid <= VehiculoPublico[8])
 	    return 1;
 	return 0;
 }
 
 stock IsACocheRuso(carid)
 {
-	if(carid == 128 || carid == 129 || carid == 130 || carid == 131 || carid == 132 || carid == 133 || carid == 134)
+	if(carid > VehiculoPublico[14] && carid <= VehiculoPublico[15])
 	    return 1;
 	return 0;
 }
 
 stock IsACocheLCN(carid)
 {
-	if(carid == 135 || carid == 136 || carid == 137 || carid == 138 || carid == 139 || carid == 140 || carid == 141
-	|| carid == 142 || carid == 143 || carid == 144 || carid == 145)
+	if(carid > VehiculoPublico[15] && carid <= VehiculoPublico[16])
 	    return 1;
 	return 0;
 }
 
 stock IsACocheYKZ(carid)
 {
-	if(carid == 146 || carid == 147 || carid == 148 || carid == 149 || carid == 150 || carid == 151 || carid == 152 || carid == 153)
+	if(carid > VehiculoPublico[16] && carid <= VehiculoPublico[17])
 	    return 1;
 	return 0;
 }
 
 stock IsAutoRenta(carid) //Comprueba si auto de pesca
 {
-	if(carid == 124 || carid == 125 || carid == 126 || carid == 127)
+	if(carid > VehiculoPublico[13] && carid <= VehiculoPublico[14])
 	    return 1;
 	return 0;
 }
 
 
-
+//TODO comprobar
 stock IsAvionPiloto(carid) //Comprueba si es un avión
 {
-	if(carid == 93 || carid == 94 || carid == 95 || carid == 96 || carid == 97 || carid == 98 || carid == 99 || carid == 100 || carid == 101 || carid == 102 || carid == 103
-	|| carid == 104 || carid == 105 || carid == 106 || carid == 107 || carid == 108 || carid == 109 || carid == 110 || carid == 111 || carid == 112 || carid == 113
-	|| carid == 114 || carid == 115 || carid == 116 || carid == 117 || carid == 118 || carid == 119)
+	if(carid > VehiculoPublico[11] && carid <= VehiculoPublico[12])
 	    return 1;
 	return 0;
 }
 
 stock IsAutoPiloto(carid) //Comprueba si auto de pesca
 {
-	if(carid == 88 || carid == 89 || carid == 90 || carid == 91 || carid == 92 || carid == 120 || carid == 121 || carid == 122 || carid == 123)
+	if((carid > VehiculoPublico[10] && carid <= VehiculoPublico[11])||(carid > VehiculoPublico[12] && carid <= VehiculoPublico[13]))
 	    return 1;
 	return 0;
 }
@@ -6257,68 +6266,23 @@ public PayDay(playerid)
 	{
 	    if(PlayerInfo[playerid][pFaccion] == 1) //LSPD
 	    {
-	        switch(PlayerInfo[playerid][pRango]) //Rango
-	        {
-	            case 1: sueldo = 300;
-	            case 2: sueldo = 450;
-	            case 3: sueldo = 525;
-	            case 4: sueldo = 600;
-	            case 5: sueldo = 800;
-	            case 6: sueldo = 900;
-	            case 7: sueldo = 1000;
-	            case 8: sueldo = 1200;
-	        }
+     		sueldo=900+(50*(PlayerInfo[playerid][pRango]-1));
 	    }
 	     if(PlayerInfo[playerid][pFaccion] == 12) //GN
 	    {
-	        switch(PlayerInfo[playerid][pRango]) //Rango
-	        {
-	            case 1: sueldo = 300;
-	            case 2: sueldo = 450;
-	            case 3: sueldo = 525;
-	            case 4: sueldo = 600;
-	            case 5: sueldo = 800;
-	            case 6: sueldo = 900;
-	            case 7: sueldo = 1000;
-	            case 8: sueldo = 1200;
-	        }
+	    	sueldo=1500+(50*(PlayerInfo[playerid][pRango]-1));
 	    }
 	    if(PlayerInfo[playerid][pFaccion] == 2) //LSMD
 	    {
-	        switch(PlayerInfo[playerid][pRango]) //Rango
-	        {
-	            case 1: sueldo = 300;
-	            case 2: sueldo = 450;
-	            case 3: sueldo = 525;
-	            case 4: sueldo = 600;
-	            case 5: sueldo = 800;
-	            case 6: sueldo = 900;
-	        }
+	        sueldo=1300+(50*(PlayerInfo[playerid][pRango]-1));
 	    }
 	    if(PlayerInfo[playerid][pFaccion] == 3) //Gobierno
 	    {
-	        switch(PlayerInfo[playerid][pRango]) //Rango
-	        {
-	            case 1: sueldo = 300;
-	            case 2: sueldo = 450;
-	            case 3: sueldo = 525;
-	            case 4: sueldo = 600;
-	            case 5: sueldo = 800;
-	            case 6: sueldo = 900;
-	            case 7: sueldo = 1000;
-	            case 8: sueldo = 1200;
-	        }
+	      sueldo=1000+(100*(PlayerInfo[playerid][pRango]-1));
 	    }
 	    if(PlayerInfo[playerid][pFaccion] == 4) //LSRTV
 	    {
-	        switch(PlayerInfo[playerid][pRango]) //Rango
-	        {
-	            case 1: sueldo = 300;
-	            case 2: sueldo = 375;
-	            case 3: sueldo = 450;
-	            case 4: sueldo = 525;
-	            case 5: sueldo = 600;
-	        }
+	       sueldo=900+(50*(PlayerInfo[playerid][pRango]-1));
 	    }
 	    PlayerInfo[playerid][pDineroBanco] += sueldo;
 		format(string, sizeof(string), "|- Salario facción: {88dd88}%d$", sueldo);
@@ -9279,29 +9243,30 @@ public OnGameModeInit()
     Attach3DTextLabelToVehicle(Create3DTextLabel("BAKER-02", 0xFFFFFFAA, 0.0, 0.0, 0.0, PLATEDISTANCE, 0, 0),AddStaticVehicleEx(599,1602.6211,-1687.8544,6.1430,90.00000000,0,1,3600),0.0,-3,0);
     Attach3DTextLabelToVehicle(Create3DTextLabel("BAKER-03", 0xFFFFFFAA, 0.0, 0.0, 0.0, PLATEDISTANCE, 0, 0),AddStaticVehicleEx(599,1602.6211,-1683.9187,6.1060,90.00000000,0,1,3600),0.0,-3,0);
     Attach3DTextLabelToVehicle(Create3DTextLabel("BAKER-04", 0xFFFFFFAA, 0.0, 0.0, 0.0, PLATEDISTANCE, 0, 0),AddStaticVehicleEx(599,1602.6211,-1696.0380,6.1060,90.00000000,0,1,3600),0.0,-3,0);
-    Attach3DTextLabelToVehicle(Create3DTextLabel("GHOST-02", 0xFFFFFFAA, 0.0, 0.0, 0.0, PLATEDISTANCE, 0, 0),AddStaticVehicleEx(597,1528.7050,-1688.0760,5.6593,270.00000000,1,1,3600),0.0,-3,0);
-    Attach3DTextLabelToVehicle(Create3DTextLabel("GHOST-03", 0xFFFFFFAA, 0.0, 0.0, 0.0, 10.0, 0, 0),AddStaticVehicleEx(597,1528.7050,-1683.9211,5.6593,270.00000000,1,1,3600),0.0,-3,0);
+	Attach3DTextLabelToVehicle(Create3DTextLabel("GHOST-02", 0xFFFFFFAA, 0.0, 0.0, 0.0, PLATEDISTANCE, 0, 0),AddStaticVehicleEx(597,1528.7050,-1688.0760,5.6593,270.00000000,1,1,3600),0.0,-3,0);
+	VehiculoPublico[0]=AddStaticVehicleEx(597,1528.7050,-1683.9211,5.6593,270.00000000,1,1,3600);
+	Attach3DTextLabelToVehicle(Create3DTextLabel("GHOST-03", 0xFFFFFFAA, 0.0, 0.0, 0.0, 10.0, 0, 0),VehiculoPublico[0],0.0,-3,0);
     /* Gobierno */
     AddStaticVehicleEx(409,1520.9000200,-1829.8000500,13.5000000,180.0000000,1,1,3600);
     AddStaticVehicleEx(421,1526.1999500,-1829.3000500,13.5000000,180.0000000,40,40,3600);
     AddStaticVehicleEx(487,1421.6412400,-1789.4536100,33.6946900,0.0000000,1,1,3600);
-    AddStaticVehicleEx(533,1532.0999800,-1829.5000000,13.3000000,180.0000000,13,13,3600);
+   	VehiculoPublico[1]=AddStaticVehicleEx(533,1532.0999800,-1829.5000000,13.3000000,180.0000000,13,13,3600);
     /* CNN */
 	AddStaticVehicleEx(582,736.3016357,-1350.6542969,13.6686020,270.0000000,116,1,3600);
 	AddStaticVehicleEx(582,736.3227539,-1345.6693115,13.6686020,270.0000000,116,1,3600);
-	AddStaticVehicleEx(488,741.9565430,-1373.2150879,25.9572105,0.0000000,-1,-1,3600);
+	VehiculoPublico[2]=AddStaticVehicleEx(488,741.9565430,-1373.2150879,25.9572105,0.0000000,-1,-1,3600);
     /* Permiso de Conducción */
     AddStaticVehicleEx(401,2052.5447,-1903.7300,13.3264,180.0000000,1,1,600);
     AddStaticVehicleEx(401,2055.9919,-1903.7300,13.3264,180.0000000,1,1,600);
-    AddStaticVehicleEx(401,2059.4391,-1903.7300,13.3264,180.0000000,1,1,600);
+   	VehiculoPublico[3]=AddStaticVehicleEx(401,2059.4391,-1903.7300,13.3264,180.0000000,1,1,600);
     /* Permiso Aviación */
-    AddStaticVehicleEx(593,1991.5916,-2286.5642,14.0084,90.0000000,0,0,600);
+    VehiculoPublico[4]=AddStaticVehicleEx(593,1991.5916,-2286.5642,14.0084,90.0000000,0,0,600);
     /* Permiso Navegación */
-    AddStaticVehicleEx(473,2944.3000000,-1561.9000000,0.0000000,260.0000000,1,1,600);
+    VehiculoPublico[5]=AddStaticVehicleEx(473,2944.3000000,-1561.9000000,0.0000000,260.0000000,1,1,600);
     /* Trabajo Cosechador */
 	AddStaticVehicleEx(532,-371.73156738,-1464.68566895,26.83628082,270.00000000,-1,-1,600);
 	AddStaticVehicleEx(532,-372.02117920,-1476.42980957,26.83628082,270.00000000,-1,-1,600);
-	AddStaticVehicleEx(532,-369.85134888,-1489.54174805,26.83628082,288.00000000,-1,-1,600);
+	VehiculoPublico[6]=AddStaticVehicleEx(532,-369.85134888,-1489.54174805,26.83628082,288.00000000,-1,-1,600);
 	/* Trabajo Taxista */
 	AddStaticVehicleEx(420,1802.8204,-1903.1697,13.1792,90.0000000,6,1,600);
 	AddStaticVehicleEx(420,1802.8204,-1908.2688,13.1762,90.0000000,6,1,600);
@@ -9310,10 +9275,10 @@ public OnGameModeInit()
 	AddStaticVehicleEx(420,1802.8204,-1923.2921,13.1717,90.2470000,6,1,600);
 	AddStaticVehicleEx(420,1802.8204,-1928.2810,13.1667,90.2470000,6,1,600);
 	AddStaticVehicleEx(420,1786.9673,-1931.0642,13.1667,357.7973,6,1,600);
-	AddStaticVehicleEx(420,1781.7911,-1930.6821,13.1665,359.1430,6,1,600);
+	VehiculoPublico[7]=AddStaticVehicleEx(420,1781.7911,-1930.6821,13.1665,359.1430,6,1,600);
 	/* Trabajo Pescador */
 	AddStaticVehicleEx(453,2967.8000000,-1525.9000000,0.0000000,260.0000000,1,1,600);
-	AddStaticVehicleEx(453,2966.3999000,-1534.0000000,0.0000000,260.0000000,1,1,600);
+	VehiculoPublico[8]=AddStaticVehicleEx(453,2966.3999000,-1534.0000000,0.0000000,260.0000000,1,1,600);
     /* Facción LSMD */
 	AddStaticVehicleEx(416,1180.2253,-1308.2930,13.3804,267.1651,1,16,600);
 	AddStaticVehicleEx(416,1192.8120,-1294.5194,13.5316,179.3421,1,16,600);
@@ -9321,19 +9286,19 @@ public OnGameModeInit()
 	AddStaticVehicleEx(416,1192.4161,-1381.3414,13.4860,180.8182,1,16,600);
 	AddStaticVehicleEx(416,1209.0096,-1381.5615,13.4080,0.7365,1,16,600);
 	AddStaticVehicleEx(416,1209.5402,-1293.7908,13.5310,1.3535,1,16,600);
-	AddStaticVehicleEx(416,1209.1156,-1332.6504,13.5466,358.3593,1,16,600);
+	VehiculoPublico[9]=AddStaticVehicleEx(416,1209.1156,-1332.6504,13.5466,358.3593,1,16,600);
 	/* Grúas Mecánico */
 	AddStaticVehicleEx(525,1773.7186,-2071.9082,13.4839,358.3988,6,0,600);
 	AddStaticVehicleEx(525,1766.5966,-2071.9607,13.4895,358.8182,6,0,600);
 	AddStaticVehicleEx(525,1759.4652,-2071.9194,13.5010,359.8815,6,0,600);
 	AddStaticVehicleEx(525,1752.1691,-2071.7297,13.5036,358.4063,6,0,600);
-	AddStaticVehicleEx(525,1745.6877,-2072.1392,13.5060,358.5654,6,0,600);
+	VehiculoPublico[10]=AddStaticVehicleEx(525,1745.6877,-2072.1392,13.5060,358.5654,6,0,600);
 	/* Vehículos Aeropuerto LS */
 	AddStaticVehicleEx(485,1946.5103,-2233.0952,13.2068,180.3700,3,6,600);
 	AddStaticVehicleEx(485,1953.7277,-2232.5593,13.2062,179.0535,3,6,600);
 	AddStaticVehicleEx(485,1962.9532,-2232.5818,13.2065,182.4112,3,6,600);
 	AddStaticVehicleEx(485,1974.4479,-2232.6584,13.2025,180.9929,3,6,600);
-	AddStaticVehicleEx(485,1982.8790,-2232.4619,13.2043,180.8095,3,6,600);
+	VehiculoPublico[11]=AddStaticVehicleEx(485,1982.8790,-2232.4619,13.2043,180.8095,3,6,600);
 	/* Aviones Aeropuerto */
 	AutosV[0] = AddStaticVehicleEx(593,2003.2958,-2625.2822,14.0060,359.7594,3,6,600);
     AutosVLabel[AutosV[0]] = Create3DTextLabel( "Trabajo Piloto\nAvión Nivel {FFFF04}1", Blanco, 0.0, 0.0, 0.0, 15.0, 2, 1 );
@@ -9416,16 +9381,17 @@ public OnGameModeInit()
 	AutosV[26] = AddStaticVehicle(553,-1141.7518,-275.5378,15.4732,92.6240,61,74);
     AutosVLabel[AutosV[26]] = Create3DTextLabel( "Trabajo Piloto\nAvión Nivel {FFFF04}3", Blanco, 0.0, 0.0, 0.0, 15.0, 2, 1 );
 	Attach3DTextLabelToVehicle(AutosVLabel[AutosV[26]] , AutosV[26], 0.0, 0.0, 0.0);
+	VehiculoPublico[12]=AutosV[26];
 	/* Vehículos Aeropuerto LV */
 	AddStaticVehicleEx(485,1653.6008,1614.3835,10.4775,268.1438,3,6,600);
 	AddStaticVehicleEx(485,1653.6838,1624.7206,10.4777,270.9861,3,6,600);
 	AddStaticVehicleEx(485,1653.6951,1634.3984,10.4781,272.2432,3,6,600);
-	AddStaticVehicleEx(485,1653.4631,1644.3506,10.4801,270.1633,3,6,600);
+	VehiculoPublico[13]=AddStaticVehicleEx(485,1653.4631,1644.3506,10.4801,270.1633,3,6,600);
 	/* Vehículos Renta */
 	AddStaticVehicleEx(585,1729.9875,-1858.2773,13.0008,269.2092,1,1,600);
 	AddStaticVehicleEx(585,1752.3033,-1851.6531,13.0005,268.6224,1,1,600);
 	AddStaticVehicleEx(585,1774.8359,-1858.4408,12.9976,270.7035,1,1,600);
-	AddStaticVehicleEx(585,1808.6028,-1851.7432,13.0011,270.8742,1,1,600);
+	VehiculoPublico[14]=AddStaticVehicleEx(585,1808.6028,-1851.7432,13.0011,270.8742,1,1,600);
 	/* Vehículos Mafia Rusa */
 	AddStaticVehicleEx(560,659.4377,-1300.1586,13.1687,179.4802,0,0,600);
 	AddStaticVehicleEx(560,659.3321,-1282.7073,13.1727,181.2941,0,0,600);
@@ -9433,7 +9399,7 @@ public OnGameModeInit()
     AddStaticVehicleEx(409,670.8686,-1292.1429,13.1687,359.0478,0,0,600);
 	AddStaticVehicleEx(579,676.1129,-1228.4711,15.1645,127.3217,0,0,600);
 	AddStaticVehicleEx(579,690.6516,-1219.8673,16.2323,119.7823,0,0,600);
-	AddStaticVehicleEx(579,710.1381,-1206.5341,17.8095,133.6009,0,0,600);
+	VehiculoPublico[15]=AddStaticVehicleEx(579,710.1381,-1206.5341,17.8095,133.6009,0,0,600);
 	/* Vehículos La Cosa Nostra */
 	AddStaticVehicleEx(580,1275.2672,-2040.8289,58.6729,88.8678,0,0,600);
 	AddStaticVehicleEx(580,1275.4889,-2026.5629,58.6158,89.2407,0,0,600);
@@ -9445,7 +9411,7 @@ public OnGameModeInit()
 	AddStaticVehicleEx(560,1247.3257,-2026.0055,59.4113,271.4808,0,0,600);
 	AddStaticVehicleEx(560,1247.0461,-2032.6812,59.4207,269.4915,0,0,600);
 	AddStaticVehicleEx(560,1247.3762,-2040.2174,59.4113,269.4637,0,0,600);
-	AddStaticVehicleEx(409,1253.3424,-2059.0171,59.2439,268.8586,0,0,600);
+	VehiculoPublico[16]=AddStaticVehicleEx(409,1253.3424,-2059.0171,59.2439,268.8586,0,0,600);
 	/* Vehículos de Yakuza */
 	AddStaticVehicleEx(560,485.5199,-1543.2258,18.5497,204.0290,0,0,600);
 	AddStaticVehicleEx(560,479.6409,-1525.3170,19.8448,192.0772,0,0,600);
@@ -9454,7 +9420,8 @@ public OnGameModeInit()
 	AddStaticVehicleEx(522,475.7274,-1511.0126,20.3404,254.6645,0,0,600);
 	AddStaticVehicleEx(522,476.8036,-1507.4644,20.3802,254.3834,0,0,600);
 	AddStaticVehicleEx(522,476.1938,-1509.5403,20.3544,255.5438,0,0,600);
-	AddStaticVehicleEx(409,485.9212,-1467.2992,18.4021,155.7462,0,0,600);
+	VehiculoPublico[17]=AddStaticVehicleEx(409,485.9212,-1467.2992,18.4021,155.7462,0,0,600);
+	MAX_VEHPUBLICO=VehiculoPublico[17];
 	/* Cargado Vehículos Privados */
 	LoadCar();
 	/* Contador Vehículos Totales */
@@ -12344,6 +12311,14 @@ if(strcmp(cmd, "/editfacc", true) == 0) //Comando para editar características de
 	        case 6: format(FaccInfo[faccid][fRango6], sizeof(result), "%s", result);
 	        case 7: format(FaccInfo[faccid][fRango7], sizeof(result), "%s", result);
 	        case 8: format(FaccInfo[faccid][fRango8], sizeof(result), "%s", result);
+	        case 9: format(FaccInfo[faccid][fRango9], sizeof(result), "%s", result);
+	        case 10: format(FaccInfo[faccid][fRango10], sizeof(result), "%s", result);
+	        case 11: format(FaccInfo[faccid][fRango11], sizeof(result), "%s", result);
+	        case 12: format(FaccInfo[faccid][fRango12], sizeof(result), "%s", result);
+	        case 13: format(FaccInfo[faccid][fRango13], sizeof(result), "%s", result);
+	        case 14: format(FaccInfo[faccid][fRango14], sizeof(result), "%s", result);
+	        case 15: format(FaccInfo[faccid][fRango15], sizeof(result), "%s", result);
+	        case 16: format(FaccInfo[faccid][fRango16], sizeof(result), "%s", result);
 	    }
 	    format(string, sizeof(string), "Rango %d facción %d: %s", rango, faccid, result);
 	    SendClientMessage(playerid, Verde, string);
