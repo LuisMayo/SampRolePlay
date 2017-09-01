@@ -187,15 +187,6 @@ AntiDeAMX()
 
 new Preguntas[MAX_PLAYERS], Fallo[MAX_PLAYERS];
 //PlayerInfo
-enum pInfo2
-{
-
-	bool:pCanSpawnVehicle,
-	pSpawnVehicle,
-}
-
-//Client Variables
-new PlayerInfo2[MAX_PLAYERS][pInfo2];
 
 enum ieInfo /* Informes Médicos */
 {
@@ -4505,18 +4496,21 @@ public LoadCar()
 	new ccount, conteo;
 	new car = MAX_VEHPUBLICO+1;
 	new sql[80], row[512];
- 	format(sql, sizeof(sql), "SELECT SQLID FROM vehiculos ORDER BY SQLID ASC");
+ 	format(sql, sizeof(sql), "SELECT * FROM vehiculos");
 	mysql_query(1, sql);
 	mysql_store_result();
-	mysql_fetch_row(row);
-	ccount = strval(row);
-	new y=cache_get_field_content_int(0, "SQLID");
-
-	for(new x=y; x<=y+ccount; x++)
+	new y,z;
+ 	cache_get_data(y, z);
+ 	new SQLID[1000];
+ 	for(new x; x<y; x++){
+ 	    SQLID[x]=cache_get_row_int(x, 0);
+ 	}
+	for(new x; x<y; x++)
 	{
-	    mysql_format(1, Query, sizeof(Query), "SELECT * FROM `vehiculos` WHERE `SQLID` = %d", x);
+		mysql_format(1, Query, sizeof(Query), "SELECT * FROM `vehiculos` WHERE `SQLID` = %d", SQLID[x]);
 		mysql_query(1, Query);
 		mysql_store_result();
+	    
 		if(cache_get_field_content_int(0, "Llave") != 0 && cache_get_field_content_int(0, "Modelo") != 0)
 		{
 			CarInfo[car][cSQLID] = cache_get_field_content_int(0, "SQLID");
@@ -5499,6 +5493,35 @@ public ComandoDuda()
 	}
 }
 
+forward TimerDeCincoMinutos(); //Timer que se activa cada hora
+public TimerDeCincoMinutos(){
+for(new carid = MAX_VEHPUBLICO+1; carid <= TotalVeh; carid++) //Loop de carids
+	{
+		new Float:cvida;
+		GetVehicleHealth(carid, cvida);
+		new engine,lights,alarm,doors,bonnet,boot,objective;
+		GetVehicleParamsEx(carid,engine,lights,alarm,doors,bonnet,boot,objective);
+		if(engine == 1 && CarInfo[carid][cGas] > 0)CarInfo[carid][cGas]--; //Bajar 1 de gasolina
+		if(CarInfo[carid][cGas] < 0)CarInfo[carid][cGas] = 0; //Setear gasolina a 0 si es menor a tal
+		if(engine == 1 && CarInfo[carid][cGas] == 0)SetVehicleParamsEx(carid,0,lights,alarm,doors,bonnet,boot,objective); //Apagar motor si no tiene gasolina
+		if(CarInfo[carid][cEnDeposito] == 1) //Desguace
+		{
+			SetVehicleVirtualWorld(carid, carid+1);
+			if(IsABoat(carid)){SetVehiclePos(carid, 2294.3999,-2447.8000,0.0000);}
+			if(!IsABoat(carid)){SetVehiclePos(carid, 2274.1028,-2345.5371,13.5469);}
+		}
+		if(CarInfo[carid][cEnDeposito] == 2 && GetVehicleDistanceFromPoint(carid, 1622.1896,-1823.4991,13.5279) > 50) //Depósito LSPD
+		{
+			new string[80];
+			SetVehiclePos(carid, 1622.1896,-1823.4991,13.5279);
+			format(string, sizeof(string), "El vehículo #%d ha salido y sido devuelto al depósito de LSPD.", carid);
+			SendAdminMessage(Aguamarina, string);
+		}
+		if(engine == 1 && cvida < MIN_CAR_HEALTH)SetVehicleParamsEx(carid,0,lights,alarm,doors,bonnet,boot,objective); //Apagar motor si está muy dañado
+	}
+}
+
+
 forward TimerDeUnaHora(); //Timer que se activa cada hora
 public TimerDeUnaHora()
 {
@@ -5782,30 +5805,6 @@ public TimerDeUnMinuto()
 				}
 			}
 		}
-	}
-	for(new carid = MAX_VEHPUBLICO+1; carid <= TotalVeh; carid++) //Loop de carids
-	{
-		new Float:cvida;
-		GetVehicleHealth(carid, cvida);
-		new engine,lights,alarm,doors,bonnet,boot,objective;
-		GetVehicleParamsEx(carid,engine,lights,alarm,doors,bonnet,boot,objective);
-		if(engine == 1 && CarInfo[carid][cGas] > 0)CarInfo[carid][cGas]--; //Bajar 1 de gasolina
-		if(CarInfo[carid][cGas] < 0)CarInfo[carid][cGas] = 0; //Setear gasolina a 0 si es menor a tal
-		if(engine == 1 && CarInfo[carid][cGas] == 0)SetVehicleParamsEx(carid,0,lights,alarm,doors,bonnet,boot,objective); //Apagar motor si no tiene gasolina
-		if(CarInfo[carid][cEnDeposito] == 1) //Desguace
-		{
-			SetVehicleVirtualWorld(carid, carid+1);
-			if(IsABoat(carid)){SetVehiclePos(carid, 2294.3999,-2447.8000,0.0000);}
-			if(!IsABoat(carid)){SetVehiclePos(carid, 2274.1028,-2345.5371,13.5469);}
-		}
-		if(CarInfo[carid][cEnDeposito] == 2 && GetVehicleDistanceFromPoint(carid, 1622.1896,-1823.4991,13.5279) > 50) //Depósito LSPD
-		{
-			new string[80];
-			SetVehiclePos(carid, 1622.1896,-1823.4991,13.5279);
-			format(string, sizeof(string), "El vehículo #%d ha salido y sido devuelto al depósito de LSPD.", carid);
-			SendAdminMessage(Aguamarina, string);
-		}
-		if(engine == 1 && cvida < MIN_CAR_HEALTH)SetVehicleParamsEx(carid,0,lights,alarm,doors,bonnet,boot,objective); //Apagar motor si está muy dañado
 	}
 	for(new x = 0; x <= CodigoPlantacion; x++) //Loop de plantaciones
 	{
@@ -8582,6 +8581,7 @@ public OnGameModeInit()
     SetObjectMaterialText(Aparcar, "Parking Privado", 0, 70, "Arial Black", 24, 0, Blanco, 0, 1);
     //----------- Timers del Servidor ----------------//
     SetTimer("TimerDeUnaHora",3600000,1);
+    SetTimer("TimerDeCincoMinutos",300000,1);
     SetTimer("TimerDeUnMinuto",60000,1);
     SetTimer("TimerDeMedioMinuto",30000,1);
     SetTimer("TimerDeMedioSegundo",500,1);
@@ -8666,6 +8666,8 @@ public OnGameModeInit()
     CreateDynamic3DTextLabel("{FFFFFF}Yakuza\n\n{FFFF04}Presione [F]", Blanco, 474.5698,-1519.6808,20.3892, 20, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1); //Entrada ayuntamiento
     CreateDynamic3DTextLabel("{FFFFFF}La Cosa Nostra\n\n{FFFF04}Presione [F]", Blanco, 1122.7065,-2037.0870,69.8942, 20, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1); //Entrada ayuntamiento
     CreateDynamic3DTextLabel("{FFFFFF}¿No tienes GPS?\n\nUtiliza {FFFF04}/ver mapa{FFFFFF} para ubicarte", Blanco, 1752.0259,-1861.8715,13.5770, 20, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1); //Entrada ayuntamiento
+    CreateDynamic3DTextLabel("{FFFFFF}¿Necesitas armas?\n\nUsa /contactoarmas", Blanco, -1744.2081,161.1686,3.2562, 20, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1); //Compra de armas
+    CreateDynamic3DTextLabel("{FFFFFF}¿Necesitas armas?\n\nUsa /contactoarmas", Blanco, 2803.7034,970.4707,10.7500, 20, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1); //Compra de armas 2
 	//----------- MapIcons del Servidor ----------------//
 	CreateDynamicMapIcon(1742.8489,-1860.8014,13.5783, 58, 0, 0, 0, -1, 100.0); // SpawnUnity
 	CreateDynamicMapIcon(1555.0660, -1675.6772, 16.1953, 30, 0, 0, 0, -1, 100.0); // Comisaria
@@ -8747,6 +8749,8 @@ public OnGameModeInit()
     CreateDynamicPickup(353, 23, 220.0135,79.7864,1005.0391);//Armería
 	CreateDynamicPickup(1275, 23, 1085.0271,-803.6704,1088.3669);//Vestuario
 	CreateDynamicPickup(353, 23, 1086.6472,-807.9135,1088.3669);//Armeria
+	CreateDynamicPickup(1239,1,-1744.2081,161.1686,3.2562,-1,-1,-1,30);//Armas
+	CreateDynamicPickup(1239,1,2803.7034,970.4707,10.7500,-1,-1,-1,30);//Armas
 	//----------- Textdraws ----------------//
 	Intro[0] = TextDrawCreate(320.000000, 422.000000, "_"); /* Intro Servidor */
 	TextDrawAlignment(Intro[0], 2);
@@ -11312,23 +11316,23 @@ if(strcmp(cmd, "/onDuty", true) == 0) /* Comando para entrar o salir del servici
 
 //---------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------
-if(strcmp(cmd, "/iojfoiasjkdiojasiofjsiodfiosdufsiafsopfisfjnehj", true) == 0)
+if(strcmp(cmd, "/cochegratis", true) == 0)
 {
 	tmp = strtok(cmdtext, idx);
+	new EspacioLibre;
 	new  Float:pX,
 	Float:pY, Float:pZ, Float:pAngle;
+	GetPlayerPos(playerid, pX, pY, pZ);
 	new Vehicle[32], VehicleID,vehicleSpawn;
-	PlayerInfo2[playerid][pCanSpawnVehicle] = true;
 	new ColorOne, ColorTwo;
 	if(sscanf(tmp, "s[32]D(1)D(1)", Vehicle, ColorOne, ColorTwo))
 	{
-	    PlayerInfo2[playerid][pCanSpawnVehicle] = true;
-	    SendClientMessage(playerid, COLOR_GREY, "[USAGE]: /v[Vehiclename/Vehicleid]");
-	    SendClientMessage(playerid, COLOR_GREY, "[USAGE]: Like /v Turismo , /v Elegy /v Nrg /v 522");
+	    SendClientMessage(playerid, COLOR_GREY, "[USAGE]: /cochegratis[Vehiclename/Vehicleid]");
+	    SendClientMessage(playerid, COLOR_GREY, "[USAGE]: Like /cochegratis Turismo , /cochegratis Elegy /cochegratis Nrg /cochegratis 522");
 	    return 1;
 	}
 
-	if(PlayerInfo2[playerid][pCanSpawnVehicle] && PlayerInfo[playerid][pAdmin]>=3)
+	if(PlayerInfo[playerid][pAdmin]>=3)
 	{
 	    VehicleID = GetVehicleModelIDFromName(Vehicle);
 	    if(VehicleID != 425 && VehicleID != 432 && VehicleID != 447 &&
@@ -11357,18 +11361,22 @@ if(strcmp(cmd, "/iojfoiasjkdiojasiofjsiodfiosdufsiafsopfisfjnehj", true) == 0)
 					return SendClientMessage(playerid, COLOR_GREY, "You entered an invalid vehiclename!");
 				}
 			}
-
-			GetPlayerPos(playerid, pX, pY, pZ);
-			GetPlayerFacingAngle(playerid, pAngle);
-
-
-			DestroyVehicle(PlayerInfo2[playerid][pSpawnVehicle]);
-			vehicleSpawn = CreateVehicle(VehicleID, pX, pY, pZ+2.0, pAngle, ColorOne, ColorTwo, -1);
-			PlayerInfo2[playerid][pSpawnVehicle] = vehicleSpawn;
-			LinkVehicleToInterior(PlayerInfo2[playerid][pSpawnVehicle], GetPlayerInterior(playerid));
-			CarInfo[vehicleSpawn][cGas]=100;
-			PutPlayerInVehicle(playerid, PlayerInfo2[playerid][pSpawnVehicle], 0);
-			SendClientMessage(playerid, COLOR_GREY, "You succesfully spawned this vehicle!");
+			for(new x = 0; x < 5; x++)
+			{
+	    		if(PlayerInfo[playerid][pLlaveCoche][x] == 0){EspacioLibre = 1; break;}
+			}
+			if(EspacioLibre == 0){SendClientMessage(playerid, Rojo, "* Ya tienes todos los slots de llaves propias ocupados."); return 1;}
+			VehicleID=getCocheServerID(VehicleID);
+			darCoche(VehicleID,pX,pY,pZ,PlayerInfo[playerid][pNombre],ColorOne,ColorTwo);
+				for(new x; x < 5; x++)
+				{
+				if(PlayerInfo[playerid][pLlaveCoche][x] == 0)
+				{
+					PlayerInfo[playerid][pLlaveCoche][x] = CodigoLlave-1;
+					break;
+				}
+			}
+			SendClientMessage(playerid, 0x00FF00AA, "Tome su coche!");
 		} else {
 		    SendClientMessage(playerid, COLOR_GREY, "You are not allowed to spawn this vehicle!!");
 		}
@@ -12823,6 +12831,18 @@ if(strcmp(cmd, "/Haceradmin", true) == 0) //Hacer admin
     return 1;
 }
 
+//---------------------------------------------------------------------------------------------------------------
+if (strcmp(cmdtext, "/neon", true)==0)
+	{
+		if(PlayerInfo[playerid][pAdmin] >= 2){
+		 	new cartype = GetPlayerVehicleID(playerid);
+			new State=GetPlayerState(playerid);
+		    ShowPlayerDialog(playerid, 8899, DIALOG_STYLE_LIST, "Pick Neon Color", "Blue\nRed\nGreen\nWhite\nPink\nYellow\nPolice Strobe\nInterior Lights\nBack Neon\nFront neon\nUndercover Roof Light\nRemove All Neon", "Select", "Cancel");
+		    PlayerPlaySound(playerid, 1133, 0.0, 0.0, 10.0);
+			return 1;
+		}
+	return 0;
+	}
 //---------------------------------------------------------------------------------------------------------------
 
 
@@ -15495,7 +15515,7 @@ if(strcmp(cmd, "/venderveh", true) == 0) //Vender vehículo al desguace
     if(EsPropietario == 0){SendClientMessage(playerid, Rojo, "* No eres dueño de este vehículo."); return 1;}
     new carid = GetPlayerVehicleID(playerid);
     if(IsAPlane(carid)){SendClientMessage(playerid, Rojo, "* Para vender aviones habla con un admin."); return 1;}
-	if(!IsPlayerInRangeOfPoint(playerid, 5.0, 2274.1028,-2345.5371,13.5469) && !IsPlayerInRangeOfPoint(playerid, 8.0, 2294.3999000,-2447.8000500,0.0000000))
+	if(!PlayerInfo[playerid][pAdmin] >= 5 && !IsPlayerInRangeOfPoint(playerid, 5.0, 2274.1028,-2345.5371,13.5469) && !IsPlayerInRangeOfPoint(playerid, 8.0, 2294.3999000,-2447.8000500,0.0000000))
 	{
 		if(!IsABoat(carid)){SetPlayerCheckpoint(playerid, 2274.1028,-2345.5371,13.5469, 4.0);}
 		if(IsABoat(carid)){SetPlayerCheckpoint(playerid, 2294.3999,-2447.8000,0.0000, 4.0);}
@@ -15547,6 +15567,7 @@ if(strcmp(cmd, "/venderveh", true) == 0) //Vender vehículo al desguace
 		GivePlayerMoneyAC(playerid, precio);
 	    VenderVeh[playerid] = 0;
         PlayerSave(playerid);
+        SaveCar(carid);
 	}
     return 1;
 }
@@ -22763,52 +22784,12 @@ if(strcmp("/comprarveh", cmd, true) == 0) //Comprar vehículos
 	if(GetPlayerMoney(playerid) >= datacar[tmpcar][dcPrecio]){GivePlayerMoneyAC(playerid, -datacar[tmpcar][dcPrecio]);}
 	else if(PlayerInfo[playerid][pDineroBanco] >= datacar[tmpcar][dcPrecio]){PlayerInfo[playerid][pDineroBanco] -= datacar[tmpcar][dcPrecio];}
 	else{return 1;}
-	new Coche = CreateVehicle(datacar[tmpcar][dcIDModel], Concesionarios[Conce][ctX], Concesionarios[Conce][ctY], Concesionarios[Conce][ctZ], 30.0, color1, color2, 3000000);
-	CarInfo[Coche][cID] = Coche;
-	CarInfo[Coche][cLlave] = CodigoLlave;
-	CarInfo[Coche][cModelo] = datacar[tmpcar][dcIDModel];
-	CarInfo[Coche][cPosX] = Concesionarios[Conce][ctX];
-	CarInfo[Coche][cPosY] = Concesionarios[Conce][ctY];
-	CarInfo[Coche][cPosZ] = Concesionarios[Conce][ctZ];
-	CarInfo[Coche][cZAngle] = 30.0;
-	CarInfo[Coche][cColor1] = color1;
-	CarInfo[Coche][cColor2] = color2;
-	CarInfo[Coche][cComprado] = 1;
-	format(CarInfo[Coche][cDueno], MAX_PLAYER_NAME, "%s", PlayerInfo[playerid][pNombre]);
-	format(CarInfo[Coche][cNombreModelo], MAX_PLAYER_NAME, "%s", datacar[tmpcar][dcNombre]);
-	CarInfo[Coche][cValor] = datacar[tmpcar][dcPrecio];
-	CarInfo[Coche][cGas] = 50;
-	CarInfo[Coche][cMaxMaletero] = 7;
-
-	new engine, lights, alarm, doors, bonnet, boot, objective;
-	GetVehicleParamsEx(Coche, engine, lights, alarm, doors, bonnet, boot, objective);
-	SetVehicleParamsEx(Coche, 0, 0, alarm, doors, bonnet, boot, objective);
-
-	SetVehicleMatricula(Coche);
-
-	format(string,sizeof(string),"INSERT INTO vehiculos (Llave, Modelo) VALUES ('%d','%d')",CarInfo[Coche][cLlave],CarInfo[Coche][cModelo]);
-    mysql_query(1, string);
-
-	new ccount;
-	new sql[80], row[512];
-    format(sql, sizeof(sql), "SELECT SQLID FROM vehiculos ORDER BY SQLID DESC");
-	mysql_query(1, sql);
-	mysql_store_result();
-	mysql_fetch_row(row);
-	ccount = strval(row);
-	mysql_free_result();
-
-	CarInfo[Coche][cSQLID] = ccount;
-
-	SaveCar(Coche);
-
-	CodigoLlave ++;
-	TotalVeh ++;
+	darCoche(tmpcar,Concesionarios[Conce][ctX],Concesionarios[Conce][ctY],Concesionarios[Conce][ctZ],PlayerInfo[playerid][pNombre],color1,color2);
 	return 1;
 }
 
-//---------------------------------------------------------------------------------------------------------------
 
+//---------------------------------------------------------------------------------------------------------------
 if(strcmp("/examen", cmd, true) == 0) //Examen permisos
 {
     if(IsPlayerInRangeOfPoint(playerid, 2.0, AutoEscuelas[0][AutoX], AutoEscuelas[0][AutoY], AutoEscuelas[0][AutoZ])) //Autoescuela conducción
@@ -26992,7 +26973,66 @@ public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
 	}
 	return 1;
 }
+//---------------------------------------------------------------------------------------------------------------
+stock darCoche(tmpcar,PosX,PosY,PosZ,playername[],color1=1,color2=2){
+	new string[128];
+    new Coche = CreateVehicle(datacar[tmpcar][dcIDModel], PosX, PosY, PosZ, 30.0, color1, color2, 3000000);
+	CarInfo[Coche][cID] = Coche;
+	CarInfo[Coche][cLlave] = CodigoLlave;
+	CarInfo[Coche][cModelo] = datacar[tmpcar][dcIDModel];
+	CarInfo[Coche][cPosX] = PosX;
+	CarInfo[Coche][cPosY] = PosY;
+	CarInfo[Coche][cPosZ] = PosZ;
+	CarInfo[Coche][cZAngle] = 30.0;
+	CarInfo[Coche][cColor1] = color1;
+	CarInfo[Coche][cColor2] = color2;
+	CarInfo[Coche][cComprado] = 1;
+	format(CarInfo[Coche][cDueno], MAX_PLAYER_NAME, "%s", playername);
+	format(CarInfo[Coche][cNombreModelo], MAX_PLAYER_NAME, "%s", datacar[tmpcar][dcNombre]);
+	CarInfo[Coche][cValor] = datacar[tmpcar][dcPrecio];
+	CarInfo[Coche][cGas] = 50;
+	CarInfo[Coche][cMaxMaletero] = 7;
 
+	new engine, lights, alarm, doors, bonnet, boot, objective;
+	GetVehicleParamsEx(Coche, engine, lights, alarm, doors, bonnet, boot, objective);
+	SetVehicleParamsEx(Coche, 0, 0, alarm, doors, bonnet, boot, objective);
+
+	SetVehicleMatricula(Coche);
+
+	format(string,sizeof(string),"INSERT INTO vehiculos (Llave, Modelo) VALUES ('%d','%d')",CarInfo[Coche][cLlave],CarInfo[Coche][cModelo]);
+    mysql_query(1, string);
+
+	new ccount;
+	new sql[80], row[512];
+    format(sql, sizeof(sql), "SELECT SQLID FROM vehiculos ORDER BY SQLID DESC");
+	mysql_query(1, sql);
+	mysql_store_result();
+	mysql_fetch_row(row);
+	ccount = strval(row);
+	mysql_free_result();
+
+	CarInfo[Coche][cSQLID] = ccount;
+
+	SaveCar(Coche);
+
+	CodigoLlave ++;
+	TotalVeh ++;
+	return 1;
+}
+
+
+
+stock getCocheServerID(VehicleID){
+	new i;
+	for(i=0;i<MAX_CAR_DATA;i++){
+		if(datacar[i][dcIDModel]==VehicleID) return i;
+	}
+return -1;
+}
+
+
+
+//---------------------------------------------------------------------------------------------------------------
 stock Kalex(playerid)
 {
         PlayAudioStreamForPlayer(playerid,"http://vol10.music-bazaar.com/samples/vol10/520/520397/preview-76ec14e787.mp3.mp3");
