@@ -158,7 +158,7 @@ AntiDeAMX()
 
 #define MAX_LSEDINFORMES 200 /* Máximo informes LSMD */
 #define MAX_DROP_ITEM 1000 /* Máximo objetos caídos en el suelo */
-#define MAX_CAR_DATA 81 /* Máximo de coches concesionarios */
+#define MAX_CAR_DATA 83 /* Máximo de coches concesionarios */
 #define MAX_COPOBJS 300 /* Máximo objetos de trafico */
 #define MAX_HOUSES 1000 /* Máximo de casas */
 #define MAX_NEGS 200 /* Máximo de negocios */
@@ -1075,8 +1075,12 @@ new datacar[MAX_CAR_DATA][datos_del_coche] = {
 {0, "Turismo", 451, 550000, 5,10},
 {0, "Infernus", 411, 600000, 5,10},
 {0, "Buffalo", 402, 175000, 5,8},
-{0, "Banshee", 429, 250000, 5,10}
+{0, "Banshee", 429, 250000, 5,10},
+/*No ontenibles*/
+{0, "Maverick", 487, 2000000, 500,10},
+{0, "Dodo", 593, 1000000, 500,10}
 };
+
 
 enum TiempoInfo /* Tiempo Aleatorio */
 {
@@ -3002,7 +3006,7 @@ LoadFaccs()
 SaveFacc(FaccID)
 {
 	new Query[300];
-	format(Query, sizeof(Query), "UPDATE facciones SET Rango1='%s', Rango2='%s', Rango3='%s', Rango4='%s', Rango5='%s', Rango6='%s', Rango7='%s', Rango8='%s' ,Rango9='%s', Rango10='%s', Rango11='%s, Rango12='%s', Rango13='%s', Rango14='%s', Rango15='%s', Rango16='%s''WHERE ID = %d",
+	format(Query, sizeof(Query), "UPDATE facciones SET Rango1='%s', Rango2='%s', Rango3='%s', Rango4='%s', Rango5='%s', Rango6='%s', Rango7='%s', Rango8='%s' ,Rango9='%s', Rango10='%s', Rango11='%s', Rango12='%s', Rango13='%s', Rango14='%s', Rango15='%s', Rango16='%s', WHERE ID = %d",
 	FaccInfo[FaccID][fRango1],
 	FaccInfo[FaccID][fRango2],
 	FaccInfo[FaccID][fRango3],
@@ -11343,23 +11347,7 @@ if(strcmp(cmd, "/cochegratis", true) == 0)
 	if(PlayerInfo[playerid][pAdmin]>=3)
 	{
 	    VehicleID = GetVehicleModelIDFromName(Vehicle);
-	    if(VehicleID != 425 && VehicleID != 432 && VehicleID != 447 &&
-	       VehicleID != 430 && VehicleID != 417 && VehicleID != 435 &&
-           VehicleID != 446 && VehicleID != 449 && VehicleID != 450 &&
-	       VehicleID != 452 && VehicleID != 453 && VehicleID != 454 &&
-  		   VehicleID != 460 && VehicleID != 464 && VehicleID != 465 &&
-  		   VehicleID != 469 && VehicleID != 472 && VehicleID != 473 &&
-		   VehicleID != 476 && VehicleID != 484 && VehicleID != 487 &&
-		   VehicleID != 488 && VehicleID != 493 && VehicleID != 497 &&
-		   VehicleID != 501 && VehicleID != 511 && VehicleID != 512 &&
-		   VehicleID != 513 && VehicleID != 519 && VehicleID != 520 &&
-		   VehicleID != 537 && VehicleID != 538 && VehicleID != 548 &&
-		   VehicleID != 553 && VehicleID != 563 && VehicleID != 564 &&
-		   VehicleID != 569 && VehicleID != 570 && VehicleID != 577 &&
-		   VehicleID != 584 && VehicleID != 590 && VehicleID != 591 &&
-		   VehicleID != 592 && VehicleID != 593 && VehicleID != 594 &&
-		   VehicleID != 595 && VehicleID != 606 && VehicleID != 607 &&
-		   VehicleID != 608 && VehicleID != 610 && VehicleID != 611) {
+	    if(1==1) {
 			if(VehicleID == -1 )
 			{
 				VehicleID = strval(Vehicle);
