@@ -1161,7 +1161,8 @@ new Mensajes[][] =
 	{"Información: ¡Recuerda visitar el TS3 de nuestro servidor! IP: 149.56.251.47:10170"},
 	{"Información: Invita amigos al servidor y podrás obtener recompensas, contacta un administrador"},
 	{"Información: Ante cualquier problema o bug contacte con administración"},
-    {"Información: Visite nuestra pagina de Facebook: https://www.facebook.com/Sky-RolePlay-1267628146697201/"}
+    {"Información: Visite nuestra pagina de Facebook: https://www.facebook.com/Sky-RolePlay-1267628146697201/"},
+    {"Información: Para colgar un anuncio en la CNN llame al 444"}
 };
 forward MensajesAleatorios();
 public MensajesAleatorios()
@@ -5586,7 +5587,7 @@ public TimerDeUnaHora()
 
 	new hora;
 	gettime(hora);
-	if(hora == 5 || hora == 6) //Guardado de stats nocturno
+	if(hora == 5 || hora == 6 || ConnectedPlayers()==0) //Guardado de stats nocturno
 	{
 	    new cuenta;
 		for(new idx=MAX_VEHPUBLICO+1; idx <= TotalVeh; idx++)
@@ -15540,20 +15541,20 @@ if(strcmp(cmd, "/venderveh", true) == 0) //Vender vehículo al desguace
 		SendClientMessage(playerid, Verde, string);
 		DestroyVehicle(carid);
 		CarInfo[carid][cLlave] = 0;
-		CarInfo[idx][cModelo] = 0;
-		CarInfo[idx][cPosX] = 0;
-		CarInfo[idx][cPosY] = 0;
-		CarInfo[idx][cPosZ] = 0;
-		CarInfo[idx][cZAngle] = 0;
-		CarInfo[idx][cColor1] = 0;
-		CarInfo[idx][cColor2] = 0;
-		CarInfo[idx][cComprado] = 0;
-		CarInfo[idx][cDueno] = 0;
-		CarInfo[idx][cNombreModelo] = 0;
-		CarInfo[idx][cValor] = 0;
-		CarInfo[idx][cCerrado] = 0;
-		CarInfo[idx][cGas] = 0;
-		CarInfo[idx][cEnDeposito] = 0;
+		CarInfo[carid][cModelo] = 0;
+		CarInfo[carid][cPosX] = 0;
+		CarInfo[carid][cPosY] = 0;
+		CarInfo[carid][cPosZ] = 0;
+		CarInfo[carid][cZAngle] = 0;
+		CarInfo[carid][cColor1] = 0;
+		CarInfo[carid][cColor2] = 0;
+		CarInfo[carid][cComprado] = 0;
+		CarInfo[carid][cDueno] = 0;
+		CarInfo[carid][cNombreModelo] = 0;
+		CarInfo[carid][cValor] = 0;
+		CarInfo[carid][cCerrado] = 0;
+		CarInfo[carid][cGas] = 0;
+		CarInfo[carid][cEnDeposito] = 0;
 		for(new x=0; x<7; x++)
 		{
 			CarInfo[idx][cMaletero][x] = 0;
@@ -26974,7 +26975,7 @@ public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
 	return 1;
 }
 //---------------------------------------------------------------------------------------------------------------
-stock darCoche(tmpcar,PosX,PosY,PosZ,playername[],color1=1,color2=2){
+stock darCoche(tmpcar,Float:PosX,Float:PosY,Float:PosZ,playername[],color1=1,color2=2){
 	new string[128];
     new Coche = CreateVehicle(datacar[tmpcar][dcIDModel], PosX, PosY, PosZ, 30.0, color1, color2, 3000000);
 	CarInfo[Coche][cID] = Coche;
