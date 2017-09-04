@@ -135,6 +135,7 @@ AntiDeAMX()
 #define UniformeLSMD  44 /* Dialogo Uniforme LSMD */
 #define UniformeWCST  45 /* Dialogo Uniforme Mecánicos */
 #define dGPSHOTELES   46 /* Dialogo GPS Hoteles*/
+#define dGPSROPA  51/* Dialogo GPS Hoteles*/
 #define UniformeCNN   47 /* Dialogo Uniforme CNN */
 #define dGPSCONCESIONARIOS 48 /* Dialogo GPS Concesionarios */
 #define dVehRenta 49 /* Dialogo Vehículos de Renta */
@@ -4533,7 +4534,7 @@ public LoadCar()
 			CarInfo[car][cGas] = cache_get_field_content_int(0, "Gas");
 			CarInfo[car][cEnDeposito] = cache_get_field_content_int(0, "EnDeposito");
 			CarInfo[car][cMaxMaletero] = cache_get_field_content_int(0, "MaxMaletero");
-			printf("Vehiculo ID: %i , clave ID: %i , Modelo: %s",CarInfo[car][cID],CarInfo[car][cLlave],CarInfo[car][cNombreModelo]);
+			//printf("Vehiculo ID: %i , clave ID: %i , Modelo: %s",CarInfo[car][cID],CarInfo[car][cLlave],CarInfo[car][cNombreModelo]);
 			for(new a=0; a<CarInfo[car][cMaxMaletero]; a++)
 		    {
 		        format(maletero, sizeof(maletero), "Maletero%d", a+1);
@@ -6302,7 +6303,7 @@ public PayDay(playerid)
 	//Impuestos
     format(string, sizeof(string), "|- Impuestos del estado: {e70000}%d$", impuestos);
 	SendClientMessage(playerid, AmarilloClaro, string);
-	//Si tiene alquilada una bivienda
+	//Si tiene alquilada una vivienda
 	if(PlayerInfo[playerid][pCasaAlq] > 0)
 	{
 	    new casa = PlayerInfo[playerid][pCasaAlq];
@@ -9621,9 +9622,9 @@ public OnPlayerConnect(playerid)
 	GetPlayerName(playerid, Nombre, sizeof(Nombre));
     if(CheckAccountExists(Nombre) != 0){JugadorRegistrado[playerid] = 1;}
     SetPlayerColor(playerid,Blanco2); /* Cambiar Color a Transparente */
-	/* Removes Hotel Sky RolePlay */
-	RemoveBuildingForPlayer(playerid, 4897, 985.7266, -2050.5313, 3.0469, 0.25);
-    RemoveBuildingForPlayer(playerid, 4905, 985.7266, -2050.5313, 3.0469, 0.25);
+    
+    
+    
 	/* Paints y Transfenders */
 	RemoveBuildingForPlayer(playerid, 11313, -1935.8594, 239.5313, 35.3516, 0.25);
 	RemoveBuildingForPlayer(playerid, 11319, -1904.5313, 277.8984, 42.9531, 0.25);
@@ -9636,6 +9637,95 @@ public OnPlayerConnect(playerid)
 	RemoveBuildingForPlayer(playerid, 1226, 1771.4453, -2190.3750, 16.3125, 0.25);
 	RemoveBuildingForPlayer(playerid, 1440, 1141.9844, -1346.1094, 13.2656, 0.25);
 	RemoveBuildingForPlayer(playerid, 1440, 1148.6797, -1385.1875, 13.2656, 0.25);
+
+
+	/* Oficinas */
+	RemoveBuildingForPlayer(playerid, 14604, 1492.9766, 1303.8516, 1093.2656, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1491.0078, 1304.1406, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1490.3203, 1304.1406, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 2002, 1496.3125, 1303.9609, 1092.2734, 0.25);
+	RemoveBuildingForPlayer(playerid, 950, 1502.6094, 1304.2813, 1092.8203, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1498.1406, 1305.1328, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1499.6484, 1305.1328, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1501.0781, 1305.1328, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1489.7656, 1306.0234, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1489.0078, 1306.2188, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 2190, 1489.8984, 1306.4141, 1093.0781, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1498.1406, 1305.7813, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1498.1406, 1306.4141, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1499.6484, 1305.7813, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1499.6484, 1306.4141, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1501.0781, 1305.7813, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1501.0781, 1306.4141, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1491.1719, 1307.8906, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 2190, 1491.5000, 1308.3047, 1093.0781, 0.25);
+	RemoveBuildingForPlayer(playerid, 2173, 1491.5625, 1308.5313, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1491.2266, 1309.1328, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1498.1406, 1307.0156, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1498.1406, 1307.6719, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1499.6484, 1307.0156, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1499.6484, 1307.6719, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1501.0781, 1307.0156, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1721, 1501.0781, 1307.6719, 1092.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 950, 1502.6094, 1309.3828, 1092.8203, 0.25);
+    
+    
+    
+    //====================================================================================
+	/* RemoveBuildings */
+	RemoveBuildingForPlayer(playerid, 14843, 266.3516, 81.1953, 1001.2813, 0.25); //Celdas de LSPD
+    RemoveBuildingForPlayer(playerid, 14849, 222.0469, 118.4766, 1007.2734, 0.25); //Lamparas LSPD
+    RemoveBuildingForPlayer(playerid, 14896, 257.1094, 117.3047, 1009.3750, 0.25);
+    RemoveBuildingForPlayer(playerid, 14897, 243.2031, 117.3047, 1009.1250, 0.25);
+    RemoveBuildingForPlayer(playerid, 14903, 269.8047, 117.5234, 1009.1250, 0.25);
+    RemoveBuildingForPlayer(playerid, 1231, 1529.2891, -1832.9141, 15.2891, 0.25); //Farola garaje ayuntamiento
+    RemoveBuildingForPlayer(playerid, 3769, 1961.4453, -2216.1719, 14.9844, 0.25); //Objetos aeropuerto
+	RemoveBuildingForPlayer(playerid, 3780, 1884.1719, -2541.3750, 14.2500, 0.25);
+	RemoveBuildingForPlayer(playerid, 3780, 1652.3438, -2541.3750, 14.2500, 0.25);
+	RemoveBuildingForPlayer(playerid, 3780, 1381.1172, -2541.3750, 14.2500, 0.25);
+	RemoveBuildingForPlayer(playerid, 3665, 1652.3438, -2541.3750, 14.2500, 0.25);
+	RemoveBuildingForPlayer(playerid, 3665, 1884.1719, -2541.3750, 14.2500, 0.25);
+	RemoveBuildingForPlayer(playerid, 3664, 2042.7734, -2442.1875, 19.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 3664, 1960.6953, -2236.4297, 19.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 3625, 1961.4453, -2216.1719, 14.9844, 0.25);
+	RemoveBuildingForPlayer(playerid, 3665, 1381.1172, -2541.3750, 14.2500, 0.25);
+	RemoveBuildingForPlayer(playerid, 3664, 1388.0078, -2593.0000, 19.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 3664, 1388.0078, -2494.2656, 19.2813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1676, 0.0, 0.0, 0.0, 6000.0); //Surtidores explosivos
+	RemoveBuildingForPlayer(playerid, 1686, 0.0, 0.0, 0.0, 6000.0);
+	RemoveBuildingForPlayer(playerid, 3631, 2149.1406, -2266.9063, 12.8750, 0.25); //Interior desguace
+	RemoveBuildingForPlayer(playerid, 5260, 2161.3438, -2264.9141, 14.0156, 0.25);
+	RemoveBuildingForPlayer(playerid, 3631, 2161.8516, -2264.0938, 16.3516, 0.25);
+	RemoveBuildingForPlayer(playerid, 3631, 2163.3750, -2262.6875, 16.3516, 0.25);
+	RemoveBuildingForPlayer(playerid, 3633, 2142.9141, -2256.3359, 13.9297, 0.25);
+	RemoveBuildingForPlayer(playerid, 3632, 2144.2969, -2258.1484, 13.9297, 0.25);
+	RemoveBuildingForPlayer(playerid, 3631, 2142.3047, -2255.8984, 12.8750, 0.25);
+	RemoveBuildingForPlayer(playerid, 5262, 2152.7109, -2256.7813, 15.2109, 0.25);
+	RemoveBuildingForPlayer(playerid, 3633, 2158.0078, -2257.2656, 16.2188, 0.25);
+	RemoveBuildingForPlayer(playerid, 3633, 2167.6641, -2256.7813, 12.7500, 0.25);
+	RemoveBuildingForPlayer(playerid, 3633, 2167.6641, -2256.7813, 13.7109, 0.25);
+	RemoveBuildingForPlayer(playerid, 3633, 2167.6641, -2256.7813, 14.6719, 0.25);
+	RemoveBuildingForPlayer(playerid, 3632, 2167.8047, -2257.3516, 16.3828, 0.25);
+	RemoveBuildingForPlayer(playerid, 3632, 2167.1719, -2257.1250, 16.4063, 0.25);
+	RemoveBuildingForPlayer(playerid, 3577, 2170.0781, -2257.6641, 16.0391, 0.25);
+	RemoveBuildingForPlayer(playerid, 3632, 2169.3516, -2258.0703, 17.2422, 0.25);
+	RemoveBuildingForPlayer(playerid, 3632, 2168.8281, -2257.5234, 17.2500, 0.25);
+	RemoveBuildingForPlayer(playerid, 3633, 2140.3828, -2254.1016, 13.9297, 0.25);
+	RemoveBuildingForPlayer(playerid, 3632, 2150.6641, -2251.5547, 12.7656, 0.25);
+	RemoveBuildingForPlayer(playerid, 3632, 2150.2813, -2250.8516, 12.7656, 0.25);
+	RemoveBuildingForPlayer(playerid, 3633, 2150.6953, -2252.9141, 16.2344, 0.25);
+	RemoveBuildingForPlayer(playerid, 3632, 2149.8125, -2253.3672, 16.2344, 0.25);
+	RemoveBuildingForPlayer(playerid, 5261, 2152.2578, -2239.4609, 14.5000, 0.25);
+	RemoveBuildingForPlayer(playerid, 5269, 2146.3750, -2248.7969, 14.6172, 0.25);
+	RemoveBuildingForPlayer(playerid, 3633, 2153.7734, -2253.0859, 14.2031, 0.25);
+	RemoveBuildingForPlayer(playerid, 3633, 2154.5078, -2254.4766, 14.2109, 0.25);
+	RemoveBuildingForPlayer(playerid, 3632, 2158.5703, -2251.0156, 15.8125, 0.25);
+	RemoveBuildingForPlayer(playerid, 3632, 2158.0469, -2250.5078, 15.8125, 0.25);
+	RemoveBuildingForPlayer(playerid, 5132, 2163.2891, -2251.6094, 14.1406, 0.25);
+	RemoveBuildingForPlayer(playerid, 5259, 2168.8438, -2246.7813, 13.9375, 0.25);
+	RemoveBuildingForPlayer(playerid, 3577, 2160.5625, -2234.8047, 14.5625, 0.25);
+	RemoveBuildingForPlayer(playerid, 3577, 2160.5781, -2234.8203, 13.0234, 0.25);
+    
 	/*Taller unity*/
 	RemoveBuildingForPlayer(playerid, 4025, 1777.8359, -1773.9063, 12.5234, 0.25);
 	RemoveBuildingForPlayer(playerid, 4070, 1719.7422, -1770.7813, 23.4297, 0.25);
@@ -9727,89 +9817,6 @@ public OnPlayerConnect(playerid)
 	RemoveBuildingForPlayer(playerid, 705, 838.2969, -515.3750, 14.6328, 0.25);
 	RemoveBuildingForPlayer(playerid, 773, 814.5234, -517.5313, 15.3203, 0.25);
 	RemoveBuildingForPlayer(playerid, 13452, 915.1641, -525.5781, 40.1797, 0.25);
-
-	/* Oficinas */
-	RemoveBuildingForPlayer(playerid, 14604, 1492.9766, 1303.8516, 1093.2656, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1491.0078, 1304.1406, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1490.3203, 1304.1406, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 2002, 1496.3125, 1303.9609, 1092.2734, 0.25);
-	RemoveBuildingForPlayer(playerid, 950, 1502.6094, 1304.2813, 1092.8203, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1498.1406, 1305.1328, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1499.6484, 1305.1328, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1501.0781, 1305.1328, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1489.7656, 1306.0234, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1489.0078, 1306.2188, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 2190, 1489.8984, 1306.4141, 1093.0781, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1498.1406, 1305.7813, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1498.1406, 1306.4141, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1499.6484, 1305.7813, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1499.6484, 1306.4141, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1501.0781, 1305.7813, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1501.0781, 1306.4141, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1491.1719, 1307.8906, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 2190, 1491.5000, 1308.3047, 1093.0781, 0.25);
-	RemoveBuildingForPlayer(playerid, 2173, 1491.5625, 1308.5313, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1491.2266, 1309.1328, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1498.1406, 1307.0156, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1498.1406, 1307.6719, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1499.6484, 1307.0156, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1499.6484, 1307.6719, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1501.0781, 1307.0156, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1721, 1501.0781, 1307.6719, 1092.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 950, 1502.6094, 1309.3828, 1092.8203, 0.25);
-	/* RemoveBuildings */
-	RemoveBuildingForPlayer(playerid, 14843, 266.3516, 81.1953, 1001.2813, 0.25); //Celdas de LSPD
-    RemoveBuildingForPlayer(playerid, 14849, 222.0469, 118.4766, 1007.2734, 0.25); //Lamparas LSPD
-    RemoveBuildingForPlayer(playerid, 14896, 257.1094, 117.3047, 1009.3750, 0.25);
-    RemoveBuildingForPlayer(playerid, 14897, 243.2031, 117.3047, 1009.1250, 0.25);
-    RemoveBuildingForPlayer(playerid, 14903, 269.8047, 117.5234, 1009.1250, 0.25);
-    RemoveBuildingForPlayer(playerid, 1231, 1529.2891, -1832.9141, 15.2891, 0.25); //Farola garaje ayuntamiento
-    RemoveBuildingForPlayer(playerid, 3769, 1961.4453, -2216.1719, 14.9844, 0.25); //Objetos aeropuerto
-	RemoveBuildingForPlayer(playerid, 3780, 1884.1719, -2541.3750, 14.2500, 0.25);
-	RemoveBuildingForPlayer(playerid, 3780, 1652.3438, -2541.3750, 14.2500, 0.25);
-	RemoveBuildingForPlayer(playerid, 3780, 1381.1172, -2541.3750, 14.2500, 0.25);
-	RemoveBuildingForPlayer(playerid, 3665, 1652.3438, -2541.3750, 14.2500, 0.25);
-	RemoveBuildingForPlayer(playerid, 3665, 1884.1719, -2541.3750, 14.2500, 0.25);
-	RemoveBuildingForPlayer(playerid, 3664, 2042.7734, -2442.1875, 19.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 3664, 1960.6953, -2236.4297, 19.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 3625, 1961.4453, -2216.1719, 14.9844, 0.25);
-	RemoveBuildingForPlayer(playerid, 3665, 1381.1172, -2541.3750, 14.2500, 0.25);
-	RemoveBuildingForPlayer(playerid, 3664, 1388.0078, -2593.0000, 19.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 3664, 1388.0078, -2494.2656, 19.2813, 0.25);
-	RemoveBuildingForPlayer(playerid, 1676, 0.0, 0.0, 0.0, 6000.0); //Surtidores explosivos
-	RemoveBuildingForPlayer(playerid, 1686, 0.0, 0.0, 0.0, 6000.0);
-	RemoveBuildingForPlayer(playerid, 3631, 2149.1406, -2266.9063, 12.8750, 0.25); //Interior desguace
-	RemoveBuildingForPlayer(playerid, 5260, 2161.3438, -2264.9141, 14.0156, 0.25);
-	RemoveBuildingForPlayer(playerid, 3631, 2161.8516, -2264.0938, 16.3516, 0.25);
-	RemoveBuildingForPlayer(playerid, 3631, 2163.3750, -2262.6875, 16.3516, 0.25);
-	RemoveBuildingForPlayer(playerid, 3633, 2142.9141, -2256.3359, 13.9297, 0.25);
-	RemoveBuildingForPlayer(playerid, 3632, 2144.2969, -2258.1484, 13.9297, 0.25);
-	RemoveBuildingForPlayer(playerid, 3631, 2142.3047, -2255.8984, 12.8750, 0.25);
-	RemoveBuildingForPlayer(playerid, 5262, 2152.7109, -2256.7813, 15.2109, 0.25);
-	RemoveBuildingForPlayer(playerid, 3633, 2158.0078, -2257.2656, 16.2188, 0.25);
-	RemoveBuildingForPlayer(playerid, 3633, 2167.6641, -2256.7813, 12.7500, 0.25);
-	RemoveBuildingForPlayer(playerid, 3633, 2167.6641, -2256.7813, 13.7109, 0.25);
-	RemoveBuildingForPlayer(playerid, 3633, 2167.6641, -2256.7813, 14.6719, 0.25);
-	RemoveBuildingForPlayer(playerid, 3632, 2167.8047, -2257.3516, 16.3828, 0.25);
-	RemoveBuildingForPlayer(playerid, 3632, 2167.1719, -2257.1250, 16.4063, 0.25);
-	RemoveBuildingForPlayer(playerid, 3577, 2170.0781, -2257.6641, 16.0391, 0.25);
-	RemoveBuildingForPlayer(playerid, 3632, 2169.3516, -2258.0703, 17.2422, 0.25);
-	RemoveBuildingForPlayer(playerid, 3632, 2168.8281, -2257.5234, 17.2500, 0.25);
-	RemoveBuildingForPlayer(playerid, 3633, 2140.3828, -2254.1016, 13.9297, 0.25);
-	RemoveBuildingForPlayer(playerid, 3632, 2150.6641, -2251.5547, 12.7656, 0.25);
-	RemoveBuildingForPlayer(playerid, 3632, 2150.2813, -2250.8516, 12.7656, 0.25);
-	RemoveBuildingForPlayer(playerid, 3633, 2150.6953, -2252.9141, 16.2344, 0.25);
-	RemoveBuildingForPlayer(playerid, 3632, 2149.8125, -2253.3672, 16.2344, 0.25);
-	RemoveBuildingForPlayer(playerid, 5261, 2152.2578, -2239.4609, 14.5000, 0.25);
-	RemoveBuildingForPlayer(playerid, 5269, 2146.3750, -2248.7969, 14.6172, 0.25);
-	RemoveBuildingForPlayer(playerid, 3633, 2153.7734, -2253.0859, 14.2031, 0.25);
-	RemoveBuildingForPlayer(playerid, 3633, 2154.5078, -2254.4766, 14.2109, 0.25);
-	RemoveBuildingForPlayer(playerid, 3632, 2158.5703, -2251.0156, 15.8125, 0.25);
-	RemoveBuildingForPlayer(playerid, 3632, 2158.0469, -2250.5078, 15.8125, 0.25);
-	RemoveBuildingForPlayer(playerid, 5132, 2163.2891, -2251.6094, 14.1406, 0.25);
-	RemoveBuildingForPlayer(playerid, 5259, 2168.8438, -2246.7813, 13.9375, 0.25);
-	RemoveBuildingForPlayer(playerid, 3577, 2160.5625, -2234.8047, 14.5625, 0.25);
-	RemoveBuildingForPlayer(playerid, 3577, 2160.5781, -2234.8203, 13.0234, 0.25);
 	/* Prisión Federal */
 	RemoveBuildingForPlayer(playerid, 1499, 2522.3516, -1303.4063, 1047.2734, 0.25);
 	RemoveBuildingForPlayer(playerid, 1499, 2522.3359, -1300.3984, 1047.2734, 0.25);
@@ -11209,7 +11216,7 @@ public OnPlayerText(playerid, text[])
         }
 	    if(!IsPlayerInAnyVehicle(playerid)) //Si no está en un vehículo
 		{
-	        format(string, sizeof(string), "%s %s dice: %s", Nombre, lenguaje, text);
+	        format(string, sizeof(string), "%s %sdice: %s", Nombre, lenguaje, text);
 	 	    ProxDetector(15.0, playerid, string,Chat1,Chat2,Chat3,Chat4,Chat5);
 	    }
 		else
@@ -11217,19 +11224,19 @@ public OnPlayerText(playerid, text[])
 			new carid = GetPlayerVehicleID(playerid);
 			if(IsABike(carid) || IsAMBike(carid) || IsAPizzaBike(carid) || IsABoat(carid)) //Si está en un vehiculo sin cabina
 	        {
-			    format(string, sizeof(string), "%s %s dice: %s", Nombre, lenguaje, text);
+			    format(string, sizeof(string), "%s %sdice: %s", Nombre, lenguaje, text);
 			    ProxDetector(15.0, playerid, string,Chat1,Chat2,Chat3,Chat4,Chat5);
 			}
 			else //Si está en un vehiculo con cabina
 			{
 	            if(VehicleWindows[GetPlayerVehicleID(playerid)] == 0)
 			    {
-	                format(string, sizeof(string), "(Ventana Cerrada) %s %s dice: %s", Nombre, lenguaje, text);
+	                format(string, sizeof(string), "(Ventana Cerrada) %s %sdice: %s", Nombre, lenguaje, text);
 			    	ProxDetector(5.0, playerid, string,Chat1,Chat2,Chat3,Chat4,Chat5);
 	            }
 				else
 				{
-	                format(string, sizeof(string), "(Ventana Abierta) %s %s dice: %s", Nombre, lenguaje, text);
+	                format(string, sizeof(string), "(Ventana Abierta) %s %sdice: %s", Nombre, lenguaje, text);
 			    	ProxDetector(15.0, playerid, string,Chat1,Chat2,Chat3,Chat4,Chat5);
 				}
 			}
@@ -15375,7 +15382,7 @@ if(strcmp(cmd, "/bloqueo", true) == 0) //Abrir o cerrar vehículo
 	{
 		for(new x=MAX_VEHPUBLICO+1; x <= TotalVeh; x++)
 		{
-			printf("Iteraccion: %i , Vehiculo ID: %i , clave ID: %i , Modelo: %s",x,CarInfo[x][cID],CarInfo[x][cLlave],CarInfo[x][cNombreModelo]);
+			//printf("Iteraccion: %i , Vehiculo ID: %i , clave ID: %i , Modelo: %s",x,CarInfo[x][cID],CarInfo[x][cLlave],CarInfo[x][cNombreModelo]);
 		    if(CarInfo[x][cLlave] == PlayerInfo[playerid][pLlaveCoche][slot-1]){car = x; break;}
 		}
 	}
@@ -15389,11 +15396,11 @@ if(strcmp(cmd, "/bloqueo", true) == 0) //Abrir o cerrar vehículo
 	
 	new Float:vX, Float:vY, Float:vZ;
 	GetVehiclePos(car, vX, vY, vZ);
-	printf("Vehiculo ID: %i , clave ID: %i , Modelo: %s",CarInfo[car][cID],CarInfo[car][cLlave],CarInfo[car][cNombreModelo]);
+	//printf("Vehiculo ID: %i , clave ID: %i , Modelo: %s",CarInfo[car][cID],CarInfo[car][cLlave],CarInfo[car][cNombreModelo]);
 	if(!IsPlayerInRangeOfPoint(playerid, 20, vX, vY, vZ)){SendClientMessage(playerid, Rojo, "* Debes estar a menos de 20 metros."); return 1;}
 	new engine,lights,alarm,doors,bonnet,boot,objective;
     GetVehicleParamsEx(car,engine,lights,alarm,doors,bonnet,boot,objective);
-    printf("2 Vehiculo ID: %i , clave ID: %i , Modelo: %s",CarInfo[car][cID],CarInfo[car][cLlave],CarInfo[car][cNombreModelo]);
+    //printf("2 Vehiculo ID: %i , clave ID: %i , Modelo: %s",CarInfo[car][cID],CarInfo[car][cLlave],CarInfo[car][cNombreModelo]);
 	if(CarInfo[car][cCerrado] == 0)
 	{
 		SetVehicleParamsEx(car,engine,lights,alarm,1,bonnet,boot,objective);
@@ -19857,7 +19864,7 @@ if(strcmp(cmd, "/gps", true) == 0) //GPS
 {
 		if(PlayerInfo[playerid][pManoDer] != 125 && PlayerInfo[playerid][pManoIzq] != 125) return SendClientMessage(playerid, Rojo, "* Debes tener un GPS en una mano.");
 		{
-			ShowPlayerDialog(playerid,dGPS,DIALOG_STYLE_LIST, "{FFFFFF}Menú GPS", "» Trabajos\n» Hoteles\n» Puntos de Interés\n» Concesionarios", "Aceptar", "Cancelar");
+			ShowPlayerDialog(playerid,dGPS,DIALOG_STYLE_LIST, "{FFFFFF}Menú GPS", "» Trabajos\n» Hoteles\n» Puntos de Interés\n» Concesionarios\n» Tiendas de Ropa", "Aceptar", "Cancelar");
 		}
 		return 1;
 }
@@ -25062,7 +25069,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s coge el uniforme de paramédico.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioLSMD] = 1;
-				SetPlayerColor(playerid, TEAM_MED_COLOR);
+				//SetPlayerColor(playerid, TEAM_MED_COLOR);
 				return 1;
 			}
 			case 1: //Ropa Enfermero
@@ -25072,7 +25079,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s coge el uniforme de enfermero.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioLSMD] = 1;
-				SetPlayerColor(playerid, TEAM_MED_COLOR);
+				//SetPlayerColor(playerid, TEAM_MED_COLOR);
 				return 1;
 			}
 			case 2: //Sub Director
@@ -25082,7 +25089,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s coge el uniforme de sub director.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioLSMD] = 1;
-				SetPlayerColor(playerid, TEAM_MED_COLOR);
+				//SetPlayerColor(playerid, TEAM_MED_COLOR);
 				return 1;
 			}
 			case 3: //Director
@@ -25092,7 +25099,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s coge el uniforme de director.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioLSMD] = 1;
-				SetPlayerColor(playerid, TEAM_MED_COLOR);
+				//SetPlayerColor(playerid, TEAM_MED_COLOR);
 				return 1;
 			}
 			case 4: //SkinMujer
@@ -25101,7 +25108,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s coge el uniforme de mujer.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioLSMD] = 1;
-				SetPlayerColor(playerid, TEAM_MED_COLOR);
+				//SetPlayerColor(playerid, TEAM_MED_COLOR);
 				return 1;
 			}
 			case 5: //
@@ -25111,7 +25118,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s coge su ropa y se viste.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioLSMD] = 0;
-				SetPlayerColor(playerid,Blanco2);
+				//SetPlayerColor(playerid,Blanco2);
 			}
 		}
 		return 1;
@@ -25508,8 +25515,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			if(listitem == 1)
 			{
 				new string[250];
-				format(string,250,"Hotel Midtown {FF0000}(Distancia: %0.0f)\n{FFFFFF}Hotel Resort {FF0000}(Distancia: %0.0f)\n{FFFFFF}Hotel Everlast {FF0000}(Distancia: %0.0f)",GetPlayerDistanceFromPoint(playerid,1498.4912,-1581.3987,13.5498),
-				GetPlayerDistanceFromPoint(playerid,2232.6450,-1159.8384,25.8906),GetPlayerDistanceFromPoint(playerid,873.3649,-2005.0197,4.0954));
+				format(string,250,"Hotel Midtown {FF0000}(Distancia: %0.0f)\n{FFFFFF}Hotel Resort {FF0000}(Distancia: %0.0f)",GetPlayerDistanceFromPoint(playerid,1498.4912,-1581.3987,13.5498),
+				GetPlayerDistanceFromPoint(playerid,2232.6450,-1159.8384,25.8906));
 				ShowPlayerDialog(playerid, dGPSHOTELES, DIALOG_STYLE_LIST, "GPS", string, "Aceptar", "Cancelar");
 			}
 			if(listitem == 2)
@@ -25525,6 +25532,52 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string,250,"Rusty Rides {FF0000}(Distancia: %0.0f)\n{FFFFFF}Heavy Weight Trucks {FF0000}(Distancia: %0.0f)\n{FFFFFF}Gentlemen Cars {FF0000}(Distancia: %0.0f)\n{FFFFFF}Motorsport {FF0000}(Distancia: %0.0f)\n{FFFFFF}Luxury Vehicles & Co. {FF0000}(Distancia: %0.0f)",
 				GetPlayerDistanceFromPoint(playerid,2131.4873,-1148.9374,24.3184),GetPlayerDistanceFromPoint(playerid,-77.5412,-1136.4923,1.0781),GetPlayerDistanceFromPoint(playerid,1410.6371,-1703.0380,13.5395),GetPlayerDistanceFromPoint(playerid,2329.6626,-2315.8853,13.5469),GetPlayerDistanceFromPoint(playerid,521.2985,-1293.2179,17.2422));
 				ShowPlayerDialog(playerid, dGPSCONCESIONARIOS, DIALOG_STYLE_LIST, "GPS", string, "Aceptar", "Cancelar");
+			}
+				if(listitem == 4)// Tiendas de ropa
+			{
+				new string[250];
+				format(string,250,"Binco {FF0000}(Distancia: %0.0f)\n{FFFFFF}Sub-Urban {FF0000}(Distancia: %0.0f)\n{FFFFFF}Didier Saschs {FF0000}(Distancia: %0.0f)\n{FFFFFF}Victim {FF0000}(Distancia: %0.0f)\n{FFFFFF}ZIP{FF0000}(Distancia: %0.0f)\n{FFFFFF}Pro Laps{FF0000}(Distancia: %0.0f)",
+						GetPlayerDistanceFromPoint(playerid,2244.323242 , -1665.001708 , 15.476562),GetPlayerDistanceFromPoint(playerid, 2112.88 , -1211.76 , 23.9633 ),GetPlayerDistanceFromPoint(playerid,453.584, -1478.21, 30.8145),
+						GetPlayerDistanceFromPoint(playerid,461.44 ,  -1500.9 ,  31.0594),GetPlayerDistanceFromPoint(playerid,1457.38 , -1137.48 ,  23.9691),
+						GetPlayerDistanceFromPoint(playerid,499.675 , -1360.13 ,  16.3271));
+				ShowPlayerDialog(playerid, dGPSROPA, DIALOG_STYLE_LIST, "GPS", string, "Aceptar", "Cancelar");
+			}
+		}
+		return 1;
+	}
+	if(dialogid == dGPSROPA)
+	{
+		if(!response) return 1;
+		{
+			if(listitem == 0)
+			{
+				SetPlayerCheckpoint(playerid,2244.323242 , -1665.001708 , 15.476562, 3.0);
+				SendClientMessage(playerid,Amarillo,"Se te marco la ubicación seleccionada en el radar");
+			}
+			if(listitem == 1)
+			{
+				SetPlayerCheckpoint(playerid,2112.88 , -1211.76 , 23.9633,3.0);
+				SendClientMessage(playerid,Amarillo,"Se te marco la ubicación seleccionada en el radar");
+			}
+			if(listitem == 2)
+			{
+				SetPlayerCheckpoint(playerid,453.584, -1478.21, 30.8145,3.0);
+				SendClientMessage(playerid,Amarillo,"Se te marco la ubicación seleccionada en el radar");
+			}
+			if(listitem == 3)
+			{
+				SetPlayerCheckpoint(playerid,461.44 ,  -1500.9 ,  31.0594,3.0);
+				SendClientMessage(playerid,Amarillo,"Se te marco la ubicación seleccionada en el radar");
+			}
+			if(listitem == 4)
+			{
+				SetPlayerCheckpoint(playerid,1457.38 , -1137.48 ,  23.9691,3.0);
+				SendClientMessage(playerid,Amarillo,"Se te marco la ubicación seleccionada en el radar");
+			}
+			if(listitem == 5)
+			{
+				SetPlayerCheckpoint(playerid,499.675 , -1360.13 ,  16.3271,3.0);
+				SendClientMessage(playerid,Amarillo,"Se te marco la ubicación seleccionada en el radar");
 			}
 		}
 		return 1;
@@ -26021,7 +26074,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s coge el uniforme de cadete y se viste.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioPD] = 1;
-				SetPlayerColor(playerid,TEAM_BLUE_COLOR);
+				//SetPlayerColor(playerid,TEAM_BLUE_COLOR);
 				return 1;
 			}
 			case 1: //Motero
@@ -26030,7 +26083,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s coge el uniforme de motero y se viste.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioPD] = 2;
-				SetPlayerColor(playerid,TEAM_BLUE_COLOR);
+				//SetPlayerColor(playerid,TEAM_BLUE_COLOR);
 				return 1;
 			}
 			case 2: //Oficial 1
@@ -26039,7 +26092,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s coge el uniforme de oficial y se viste.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioPD] = 3;
-				SetPlayerColor(playerid,TEAM_BLUE_COLOR);
+				//SetPlayerColor(playerid,TEAM_BLUE_COLOR);
 				return 1;
 			}
 			case 3: //Oficial 2
@@ -26048,7 +26101,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s coge el uniforme de oficial y se viste.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioPD] = 4;
-				SetPlayerColor(playerid,TEAM_BLUE_COLOR);
+				//SetPlayerColor(playerid,TEAM_BLUE_COLOR);
 				return 1;
 			}
 			case 4: //Oficial 3
@@ -26057,7 +26110,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s coge el uniforme de oficial y se viste.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioPD] = 5;
-				SetPlayerColor(playerid,TEAM_BLUE_COLOR);
+				//SetPlayerColor(playerid,TEAM_BLUE_COLOR);
 				return 1;
 			}
 			case 5: //Oficial 4
@@ -26066,7 +26119,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s coge el uniforme de oficial y se viste.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioPD] = 6;
-				SetPlayerColor(playerid,TEAM_BLUE_COLOR);
+				//SetPlayerColor(playerid,TEAM_BLUE_COLOR);
 				return 1;
 			}
 			case 6: //Oficial 5
@@ -26075,7 +26128,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s coge el uniforme de oficial y se viste.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioPD] = 7;
-				SetPlayerColor(playerid,TEAM_BLUE_COLOR);
+				//SetPlayerColor(playerid,TEAM_BLUE_COLOR);
 				return 1;
 			}
 			case 7: //Paisano
@@ -26086,7 +26139,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s se pone de servicio como paisano.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioPD] = 8;
-				SetPlayerColor(playerid,TEAM_BLUE_COLOR);
+				//SetPlayerColor(playerid,TEAM_BLUE_COLOR);
 				return 1;
 			}
 			case 8: //SWAT
@@ -26095,7 +26148,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s coge el traje de SWAT y se viste.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioPD] = 9;
-				SetPlayerColor(playerid,TEAM_BLUE_COLOR);
+				//SetPlayerColor(playerid,TEAM_BLUE_COLOR);
 				return 1;
 			}
 			case 9: //Superior
@@ -26104,7 +26157,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s coge el uniforme de superior y se viste.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioPD] = 10;
-				SetPlayerColor(playerid,TEAM_BLUE_COLOR);
+				//SetPlayerColor(playerid,TEAM_BLUE_COLOR);
 				return 1;
 			}
 			case 10: //Comisario
@@ -26113,7 +26166,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s coge el uniforme de comisario y se viste.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioPD] = 11;
-				SetPlayerColor(playerid,TEAM_BLUE_COLOR);
+				//SetPlayerColor(playerid,TEAM_BLUE_COLOR);
 				return 1;
 			}
 			case 11: //Skin de mujer
@@ -26123,7 +26176,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s coge su uniforme y se viste.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioPD] = 12;
-				SetPlayerColor(playerid,TEAM_BLUE_COLOR);
+				//SetPlayerColor(playerid,TEAM_BLUE_COLOR);
 				return 1;
 			}
 			case 12: //Ropa normal
@@ -26139,7 +26192,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string, sizeof(string), "* %s coge su ropa y se viste.", GetPlayerNameRP(playerid));
 				ProxDetector(15.0, playerid, string, Morado,Morado,Morado,Morado,Morado);
 				PlayerInfo[playerid][pServicioPD] = 0;
-				SetPlayerColor(playerid,Blanco2);
+				//SetPlayerColor(playerid,Blanco2);
 				for(new i = 0; i < MAX_PLAYERS; i++)
 				{
 					if(IsPlayerConnected(i))
